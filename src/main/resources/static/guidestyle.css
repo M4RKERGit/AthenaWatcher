@@ -1,0 +1,154 @@
+summary
+{
+    cursor: pointer;
+    outline: none;
+}
+
+.selector
+{
+    padding-top:2%;
+    padding-left: 30px;
+    font-size: 24px;
+    float:left;
+    text-align:left;
+    width: 80%;
+}
+
+.powered
+{
+    position: fixed;
+    top: 250px;
+    right: 58%;
+    font-size: 40px;
+}
+
+.javaPic
+{
+    position: relative;
+    top: 200px; 
+    left: 15px;
+    display: block;
+    margin: auto;
+    width: 200px;
+    height: 200px;
+}
+
+.pythonPic
+{
+    position: relative;
+    top: 40px; 
+    left: 450px;
+    display: block;
+    margin: auto;
+    width: 400px;
+    height: 100px;
+}
+
+.weatherPic
+{
+    position: relative;
+    top: 200px; 
+    right: 100px;
+    display: block;
+    margin: auto;
+    width: 400px;
+    height: 150px;
+}
+
+.pixPic
+{
+    position: relative;
+    top: 20px; 
+    left: 300px;
+    display: block;
+    margin: auto;
+    width: 240px;
+    height: 200px;
+}
+
+.anekPic
+{
+    position: relative;
+    bottom: 120px; 
+    left: 700px;
+    display: block;
+    margin: auto;
+    width: 150px;
+    height: 90px;
+}
+
+.selectorText
+{
+    width: 30%;
+}
+
+@media screen and (orientation: portrait)
+{
+    .selectorText
+    {
+        width: 65%;
+    }
+
+    .powered
+    {
+        position: fixed;
+        top: 10%;
+        right: 10.5%;
+        font-size: 40px;
+    }
+
+    .javaPic
+    {
+        position: relative;
+        bottom: 40%;
+        left: 36%;
+        display: block;
+        margin: auto;
+        width: 200px;
+        height: 200px;
+    }
+
+    .pythonPic
+    {
+        position: relative;
+        top: 350%;
+        left: 28%;
+        display: block;
+        margin: auto;
+        width: 360px;
+        height: 90px;
+    }
+
+    .weatherPic
+    {
+        position: relative;
+        top: 450%; 
+        left: 28%;
+        display: block;
+        margin: auto;
+        width: 320px;
+        height: 120px;
+    }
+
+    .pixPic
+    {
+        position: relative;
+        top: 550%; 
+        left: 28.5%;
+        display: block;
+        margin: auto;
+        width: 240px;
+        height: 200px;
+    }
+
+    .anekPic
+    {
+        position: relative;
+        top: 650%; 
+        left: 30%;
+        display: block;
+        margin: auto;
+        width: 150px;
+        height: 90px;
+    }
+}

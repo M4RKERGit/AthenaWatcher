@@ -1,0 +1,147 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700,900&subset=cyrillic");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i&subset=cyrillic');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+body
+{
+    text-align: center;
+    background-color: #2dbdec;
+    color: #EEEEEE;
+    font-family: 'Play', sans-serif;
+}
+
+.kolhozInc
+{
+    padding-top: 1.5%;
+    padding-bottom: 20px;
+    padding-left: 25px;
+    display: inline-block;
+    font-size: 30px;
+    float: left;
+}
+
+.headerr
+{
+    padding-top: 1.8%;
+    padding-bottom: 20px;
+    padding-right: 25px;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.headerc
+{
+    padding-top: 1.8%;
+    padding-bottom: 20px;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.headerl
+{
+    padding-top: 1.8%;
+    padding-bottom: 20px;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.headermid
+{
+    padding-top: 1.8%;
+    padding-bottom: 20px;
+    float: center;
+    font-size: 30px;
+}
+
+.stick
+{
+    padding-right: 10px;
+    padding-left: 10px;
+    float: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.shapka
+{
+    position: fixed;
+    background-color: #00b4f0;
+    height: 90px;
+    z-index: 9000;
+    width: 100%;
+}
+
+.botAva
+{
+    padding-top: 16%;
+    display: block;
+    margin: auto;
+}
+
+.PPNet
+{
+    font-size: 50px;
+    font-weight: bold;
+}
+
+img
+{
+    border: none;
+}
+
+.SecHed
+{
+    font-size: 80px;
+}
+
+.FirTxt
+{
+    padding-left: 25%;
+    padding-right: 80px;
+    padding-bottom: 80px;
+    font-size: 24px;
+    width: 50%;
+}
+
+.space
+{
+    padding-top: 5%;
+}
+
+.backTo
+{
+    padding-top: 2%;
+    padding-bottom: 20px;
+    padding-left: 25px;
+    display: inline-block;
+    font-size: 16px;
+    float: left;
+}
+
+@media screen and (orientation: portrait)
+{
+    .shapka
+    {
+        height: 4.2%;
+    }
+    .headerr
+    {
+        padding-top: 2.2%;
+    }
+    .headerc
+    {
+        padding-top: 2.2%;
+    }
+    .headerl
+    {
+        padding-top: 2.2%;
+    }
+    .backTo
+    {
+        padding-top: 2.6%;
+    }
+}
