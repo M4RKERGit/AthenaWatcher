@@ -1,15 +1,18 @@
 package com.athena.hardware;
 
+import java.util.ArrayList;
+
 public class GPU extends Device
 {
     public String description, product, vendor, clock;
 
     public GPU()
     {
-        this.description = getLine("lshw -c video", 3);
-        this.product = getLine("lshw -c video", 4);
-        this.vendor = getLine("lshw -c video", 5);
-        this.clock = getLine("lshw -c video", 6);
+        ArrayList<String> fullReport = getReport(new String[]{"lshw", "-C", "video"});
+        this.description = parseParameter(fullReport, "description").split(":")[1].strip();
+        this.product = parseParameter(fullReport, "product").split(":")[1].strip();
+        this.vendor = parseParameter(fullReport, "vendor").split(":")[1].strip();
+        this.clock = parseParameter(fullReport, "clock").split(":")[1].strip();
         System.out.println("GPU formed\n");
     }
 }
