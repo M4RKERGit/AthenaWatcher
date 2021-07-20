@@ -20,7 +20,7 @@ public class CPU extends Device
         this.cores = Integer.parseInt(getLine("nproc", 1).strip());
         this.FPU = getLine("grep fpu /proc/cpuinfo", 1).split(":")[1].strip();
         this.curTemp = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}")[3];
-        this.critTemp = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}")[9];
+        this.critTemp = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}")[9].replaceFirst("\\)", "");
         System.out.println("CPU formed\n");
     }
 }

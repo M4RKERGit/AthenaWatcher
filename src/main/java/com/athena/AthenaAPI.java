@@ -1,6 +1,8 @@
 package com.athena;
 
 import com.athena.hardware.HWInfo;
+import com.athena.systeminfo.Service;
+import com.athena.systeminfo.SystemCtlReport;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -41,6 +43,18 @@ public class AthenaAPI {
     public String getHWInfo()
     {
         HWInfo info = new HWInfo();
+        ObjectMapper JSONMapper = new ObjectMapper();
+        JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String buf = "";
+        try {buf = JSONMapper.writeValueAsString(info);}
+        catch (JsonProcessingException e) {e.printStackTrace();}
+        return buf;
+    }
+
+    @RequestMapping(value = "/servinfo", method = RequestMethod.GET, produces = "application/json")
+    public String getServInfo()
+    {
+        Service info = new Service("colord");
         ObjectMapper JSONMapper = new ObjectMapper();
         JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
         String buf = "";

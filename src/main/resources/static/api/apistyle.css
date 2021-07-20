@@ -5,24 +5,49 @@
 
 body
 {
-    background-color: #001b5f;
+    background-color: #022876;
     color: #EEEEEE;
     font-family: 'Play', sans-serif;
 }
 
-.logoPic
+.table
 {
-    padding-top: 0%;
+    position: relative;
+    top: 90px;
 }
 
 .sysConf
 {
-    background: #001b5f; /* Цвет фона */
-    outline: 2px solid #000; /* Чёрная рамка */
     border: 3px solid #fff; /* Белая рамка */
     border-radius: 10px;
+    width: 25%;
 }
 
+.logoPic
+{
+    position: absolute;
+    right: 2%;
+    bottom: 4%;
+}
+
+.header
+{
+    position: fixed;
+    background-color: #001b5f;
+    height: 90px;
+    z-index: 9000;
+    width: 100%;
+}
+
+.upperString
+{
+    padding-top: 1.5%;
+    padding-bottom: 20px;
+    padding-left: 25px;
+    display: inline-block;
+    font-size: 30px;
+    float: left;
+}
 
 @media screen and (orientation: portrait)
 {
