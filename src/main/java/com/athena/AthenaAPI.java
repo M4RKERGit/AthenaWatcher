@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -17,6 +22,17 @@ public class AthenaAPI {
     private final VisitsRepository visitsRepository;
 
     public AthenaAPI(VisitsRepository visitsRepository) {this.visitsRepository = visitsRepository;}
+
+    @GetMapping("/")
+    public ModelAndView index()
+    {
+        Map<String, String> model = new HashMap<>();
+        Visitor visit = new Visitor();
+        visit.description = String.format("Visited API at %s", LocalDateTime.now());
+        visitsRepository.save(visit);
+
+        return new ModelAndView("API.html", model);
+    }
 
     @GetMapping("/visits")
     public Iterable<Visitor> getVisits() {return visitsRepository.findAll();}

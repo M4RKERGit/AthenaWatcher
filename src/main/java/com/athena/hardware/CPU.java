@@ -8,6 +8,8 @@ public class CPU extends Device
     public long cacheSize;
     public int cores;
     public String FPU;
+    public String curTemp;
+    public String critTemp;
 
     public CPU()
     {
@@ -17,6 +19,8 @@ public class CPU extends Device
         this.cacheSize = Long.parseLong(getLine("grep cache /proc/cpuinfo", 1).split(":")[1].split(" ")[1].strip());
         this.cores = Integer.parseInt(getLine("nproc", 1).strip());
         this.FPU = getLine("grep fpu /proc/cpuinfo", 1).split(":")[1].strip();
+        this.curTemp = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}")[3];
+        this.critTemp = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}")[9];
         System.out.println("CPU formed\n");
     }
 }

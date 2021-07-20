@@ -1,12 +1,8 @@
 package com.athena;
 
-import com.athena.hardware.*;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -30,7 +26,7 @@ public class AthenaController
         model.put("name", "Alexey");
 
         Visitor visit = new Visitor();
-        visit.description = String.format("Visited at %s", LocalDateTime.now());
+        visit.description = String.format("Visited index at %s", LocalDateTime.now());
         visitsRepository.save(visit);
 
         return new ModelAndView("index.html", model);

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="apistyle.css">
+    <link rel="shortcut icon" href="../images/apiPic.ico" type="image/x-icon">
+</head>
+
+<body>
+    <img class="logoPic" src="../images/athenaLogo.png" alt=Zhopa width="270" height="270" />
+    <div>
+        System state:
+        <div class="sysConf">
+            <div class="CPUinfo">
+                CPU Info:
+                <div id="cpuJSON">
+                    Шото тут
+                </div>
+            </div>
+            <div class="GPUinfo">
+                GPU Info:
+                <div id="gpuJSON">
+                    Шото тут
+                </div>
+            </div>
+            <div class="RAMinfo">
+                RAM Info:
+                <div id="memoryJSON">
+                    Шото тут
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<script>
+    var xhr = new XMLHttpRequest();
+    var url = "/api/hwinfo";
+
+    xhr.onreadystatechange = function()
+    {
+        if (xhr.readyState == 4 && xhr.status == 200)
+        {
+            var jsonData = JSON.parse(xhr.responseText);
+            showArtists(jsonData);
+        }
+    };
+
+    xhr.open("GET", url, true);
+    xhr.send();
+
+    function showArtists(data)
+    {
+        var output = "<ul>";
+
+        output += "<li>" + "CPU Manufacturer: " + data.cpu.manufacturer + "</li>";
+        output += "<li>" + "CPU Model: " + data.cpu.modelName + "</li>";
+        output += "<li>" + "CPU Frequency: " + data.cpu.cpuFreq + "</li>";
+        output += "<li>" + "CPU Cores: " + data.cpu.cores + "</li>";
+        output += "<li>" + "FPU Tech: " + data.cpu.FPU + "</li>";
+        output += "<li>" + "CPU Temp: " + data.cpu.curTemp + "</li>";
+        output += "<li>" + "CPU Critical Temp: " + data.cpu.critTemp + "</li>";
+        output += "</ul>";
+        document.getElementById("cpuJSON").innerHTML = output;
+
+        var output = "<ul>";
+
+        output += "<li>" + "GPU Description: " + data.gpu.description + "</li>";
+        output += "<li>" + "GPU Model: " + data.gpu.product + "</li>";
+        output += "<li>" + "GPU Vendor: " + data.gpu.vendor + "</li>";
+        output += "<li>" + "GPU Clock: " + data.gpu.clock + "</li>";
+        output += "<li>" + "GPU Temp: " + data.gpu.curTemp + "</li>";
+        output += "<li>" + "GPU Critical Temp: " + data.gpu.critTemp + "</li>";
+        output += "</ul>";
+        document.getElementById("gpuJSON").innerHTML = output;
+
+        var output = "<ul>";
+
+        output += "<li>" + "RAM Total: " + data.memory.ram.total + "</li>";
+        output += "<li>" + "RAM Used: " + data.memory.ram.used + "</li>";
+        output += "<li>" + "RAM Free: " + data.memory.ram.free + "</li>";
+        output += "<li>" + "RAM Shared: " + data.memory.ram.shared + "</li>";
+        output += "<li>" + "RAM Cache: " + data.memory.ram.cache + "</li>";
+        output += "<li>" + "RAM Available: " + data.memory.ram.available + "</li>";
+        output += "</ul>";
+        document.getElementById("memoryJSON").innerHTML = output;
+    }
+</script>
+
+<style type="text/css">
+    A {
+        text-decoration: none;
+        color: #EEEEEE;
+        outline: none;
+    }
+</style>

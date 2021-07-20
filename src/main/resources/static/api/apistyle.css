@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700,900&subset=cyrillic");
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i&subset=cyrillic');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+
+body
+{
+    background-color: #001b5f;
+    color: #EEEEEE;
+    font-family: 'Play', sans-serif;
+}
+
+.logoPic
+{
+    padding-top: 0%;
+}
+
+.sysConf
+{
+    background: #001b5f; /* Цвет фона */
+    outline: 2px solid #000; /* Чёрная рамка */
+    border: 3px solid #fff; /* Белая рамка */
+    border-radius: 10px;
+}
+
+
+@media screen and (orientation: portrait)
+{
+}
