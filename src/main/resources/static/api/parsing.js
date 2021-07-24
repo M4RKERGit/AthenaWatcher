@@ -1,9 +1,5 @@
 var xhrHW = new XMLHttpRequest();
 var urlHW = "/api/hwinfo";
-
-var xhrSYS = new XMLHttpRequest();
-var urlSYS = "/api/servinfo";
-
 xhrHW.onreadystatechange = function()
 {
     if (xhrHW.readyState === 4 && xhrHW.status === 200)
@@ -12,7 +8,13 @@ xhrHW.onreadystatechange = function()
         showHW(jsonData);
     }
 };
+xhrHW.open("GET", urlHW, true);
+xhrHW.send();
 
+
+
+var xhrSYS = new XMLHttpRequest();
+var urlSYS = "/api/servinfo";
 xhrSYS.onreadystatechange = function()
 {
     if (xhrSYS.readyState === 4 && xhrSYS.status === 200)
@@ -21,10 +23,6 @@ xhrSYS.onreadystatechange = function()
         showSYS(jsonData);
     }
 };
-
-xhrHW.open("GET", urlHW, true);
-xhrHW.send();
-
 xhrSYS.open("GET", urlSYS, true);
 xhrSYS.send();
 
@@ -35,7 +33,7 @@ function showHW(data)
     output += "CPU Manufacturer: " + data.cpu.manufacturer + "<br>";
     output += "CPU Model: " + data.cpu.modelName + "<br>";
     output += "CPU Frequency: " + data.cpu.cpuFreq + "<br>";
-    output += "CPU Cores: " + data.cpu.cores + "<br>";
+    output += "CPU Cores (Logical): " + data.cpu.cores + "<br>";
     output += "FPU Tech: " + data.cpu.FPU + "<br>";
     output += "CPU Temp: " + data.cpu.curTemp + "<br>";
     output += "CPU Critical Temp: " + data.cpu.critTemp + "<br>";
@@ -49,6 +47,7 @@ function showHW(data)
     output += "GPU Clock: " + data.gpu.clock + "<br>";
     output += "GPU Temp: " + data.gpu.curTemp + "<br>";
     output += "GPU Critical Temp: " + data.gpu.critTemp + "<br>";
+    output += "GPU Consumption: " + data.gpu.power + "<br>";
     document.getElementById("gpuJSON").innerHTML = output;
 
     var output = "";
@@ -66,11 +65,31 @@ function showSYS(data)
 {
     var output = "";
 
-    output += "Service name: " + data.serviceName + "<br>";
-    output += data.loaded + "<br>";
-    output += data.activity + "<br>";
-    output += data.PID + "<br>";
-    output += data.memory + "<br>";
+    output += "Service name: " + data["serviceList"][0].serviceName + "<br>";
+    output += data["serviceList"][0].loaded + "<br>";
+    output += data["serviceList"][0].activity + "<br>";
+    output += data["serviceList"][0].PID + "<br>";
+    output += data["serviceList"][0].memory + "<br>";
 
-    document.getElementById("serviceJSON").innerHTML = output;
+    document.getElementById("fserviceJSON").innerHTML = output;
+
+    var output = "";
+
+    output += "Service name: " + data["serviceList"][1].serviceName + "<br>";
+    output += data["serviceList"][1].loaded + "<br>";
+    output += data["serviceList"][1].activity + "<br>";
+    output += data["serviceList"][1].PID + "<br>";
+    output += data["serviceList"][1].memory + "<br>";
+
+    document.getElementById("sserviceJSON").innerHTML = output;
+
+    var output = "";
+
+    output += "Service name: " + data["serviceList"][2].serviceName + "<br>";
+    output += data["serviceList"][2].loaded + "<br>";
+    output += data["serviceList"][2].activity + "<br>";
+    output += data["serviceList"][2].PID + "<br>";
+    output += data["serviceList"][2].memory + "<br>";
+
+    document.getElementById("tserviceJSON").innerHTML = output;
 }

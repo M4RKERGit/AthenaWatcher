@@ -5,7 +5,7 @@
 
 body
 {
-    background-color: #022876;
+    background-color: #444a5a;
     color: #EEEEEE;
     font-family: 'Play', sans-serif;
 }
@@ -23,6 +23,19 @@ body
     width: 25%;
 }
 
+.servConf
+{
+    border: 3px solid #fff; /* Белая рамка */
+    border-radius: 10px;
+    width: 500px;
+    padding: 10px;
+}
+
+.space
+{
+    padding-bottom: 50px;
+}
+
 .logoPic
 {
     position: absolute;
@@ -33,7 +46,7 @@ body
 .header
 {
     position: fixed;
-    background-color: #001b5f;
+    background-color: #444a5a;
     height: 90px;
     z-index: 9000;
     width: 100%;

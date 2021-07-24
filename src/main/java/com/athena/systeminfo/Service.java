@@ -19,10 +19,21 @@ public class Service
     {
         this.serviceName = serviceName;
         ArrayList<String> report = getReport(new String[]{"systemctl", "status", serviceName});
+        System.out.println("\n\n" + report + "\n\n");
         this.loaded = parseParameter(report, "Loaded").strip();
         this.activity = parseParameter(report, "Active").strip();
-        this.PID = parseParameter(report, "PID").strip();
-        this.memory = parseParameter(report, "Memory").strip();
+        try{this.PID = parseParameter(report, "PID").strip();}
+        catch (Exception e)
+        {
+            System.out.println("Process isn't active, PID getting failed");
+            this.PID = "PID unavailable";
+        }
+        try{this.memory = parseParameter(report, "Memory").strip();}
+        catch (Exception e)
+        {
+            System.out.println("Process isn't active, memory getting failed");
+            this.memory = "Memory unavailable";
+        }
     }
 
     ArrayList<String> getReport(String[] command)
@@ -48,7 +59,7 @@ public class Service
 
     String parseParameter(ArrayList<String> GOT, String match)
     {
-        for (int i = 0; i < GOT.size(); i++) {if (GOT.get(i).contains(match)) return GOT.get(i);}
+        for (String s : GOT) {if (s.contains(match)) return s;}
         return null;
     }
 }

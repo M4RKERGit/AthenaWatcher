@@ -46,7 +46,7 @@ public class Device
 
     String parseParameter(ArrayList<String> GOT, String match)
     {
-        for (int i = 0; i < GOT.size(); i++) {if (GOT.get(i).contains(match)) return GOT.get(i);}
+        for (String s : GOT) {if (s.contains(match)) return s;}
         return null;
     }
 }
