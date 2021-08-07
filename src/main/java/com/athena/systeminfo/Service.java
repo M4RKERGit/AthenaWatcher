@@ -1,27 +1,30 @@
 package com.athena.systeminfo;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import com.athena.linuxtools.ProcessParsing;
 
-public class Service
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Service extends ProcessParsing
 {
     //public String kind = getClass().toString();
     public String serviceName;
+    public boolean defined = false;
     public String loaded;
     public String activity;
     public String PID;
     public String memory;
-    public String[] log;
+    public String log;
 
     public Service(String serviceName)
     {
         this.serviceName = serviceName;
         ArrayList<String> report = getReport(new String[]{"systemctl", "status", serviceName});
         System.out.println("\n\n" + report + "\n\n");
+        if (report.isEmpty()) return;
         this.loaded = parseParameter(report, "Loaded").strip();
         this.activity = parseParameter(report, "Active").strip();
+        this.defined = true;
         try{this.PID = parseParameter(report, "PID").strip();}
         catch (Exception e)
         {
@@ -34,32 +37,7 @@ public class Service
             System.out.println("Process isn't active, memory getting failed");
             this.memory = "Memory unavailable";
         }
-    }
-
-    ArrayList<String> getReport(String[] command)
-    {
-        String s;
-        ArrayList<String> report = new ArrayList<String>();
-        ProcessBuilder pB = new ProcessBuilder(command);
-        try
-        {
-            BufferedReader execOutput;
-            Process process = pB.start();
-            execOutput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            while(true)
-            {
-                s = execOutput.readLine();
-                if (s == null)  break;
-                report.add(s);
-            }
-        }
-        catch (IOException e){e.printStackTrace();}
-        return report;
-    }
-
-    String parseParameter(ArrayList<String> GOT, String match)
-    {
-        for (String s : GOT) {if (s.contains(match)) return s;}
-        return null;
+        var journal = getReport(new String[]{"journalctl", "-eu", serviceName});
+        this.log = String.join("<br>", journal.subList(journal.size() - 15, journal.size()));
     }
 }

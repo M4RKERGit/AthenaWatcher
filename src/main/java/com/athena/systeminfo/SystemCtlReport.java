@@ -11,14 +11,25 @@ public class SystemCtlReport
 {
     public Service[] serviceList = new Service[3];
     public ArrayList<String> report;
+
     @SneakyThrows
     public SystemCtlReport()
     {
         FileReader fr = null;
-        try {fr = new FileReader("services.txt"); System.out.println("File:" + fr.ready());}
-        catch (FileNotFoundException e){e.printStackTrace();}
+        try
+        {
+            fr = new FileReader("services.txt");
+            System.out.println("File:" + fr.ready());
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
         BufferedReader reader = new BufferedReader(fr);
-        for (int i = 0; i < serviceList.length; i++) {serviceList[i] = new Service(reader.readLine());}
+        for (int i = 0; i < serviceList.length; i++)
+        {
+            serviceList[i] = new Service(reader.readLine());
+        }
         report = serviceAnalyze();
     }
 
@@ -27,11 +38,15 @@ public class SystemCtlReport
         ArrayList<String> toRet = new ArrayList<>();
         for (Service service : this.serviceList)
         {
+            if (!service.defined)
+            {
+                toRet.add("Service " + service.serviceName + "undefined");
+                continue;
+            }
             if (service.activity.contains("dead"))
             {
                 toRet.add("Service " + service.serviceName + " isn't active, press button to restart");
-            }
-            else toRet.add("Service " + service.serviceName + " is running well");
+            } else toRet.add("Service " + service.serviceName + " is running well");
         }
         return toRet;
     }

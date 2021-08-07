@@ -14,20 +14,29 @@ public class GPU extends Device
     public String critTemp;
     public String power;
 
-    public GPU()
+    public GPU(boolean sensorsEnabled)
     {
-        ArrayList<String> lshwReport = getReport(new String[]{"lshw", "-C", "video"});
-        ArrayList<String> sensorsReport = getReport(new String[]{"sensors"});
-        this.description = parseParameter(lshwReport, "description").split(":")[1].strip();
-        this.product = parseParameter(lshwReport, "product").split(":")[1].strip();
-        this.vendor = parseParameter(lshwReport, "vendor").split(":")[1].strip();
-        this.clock = parseParameter(lshwReport, "clock").split(":")[1].strip();
-
-        this.curTemp = parseParameter(sensorsReport, "edge").split("\s{1,10}")[1];
-        this.critTemp = parseParameter(sensorsReport, "edge").split("\s{1,10}")[4].replaceFirst(",", "");
-        this.power = parseParameter(sensorsReport, "power").split("\s{2,10}")[1];
+        try
+        {
+            ArrayList<String> lshwReport = getReport(new String[]{"lshw", "-C", "video"});
+            this.description = parseParameter(lshwReport, "description").split(":")[1].strip();
+            this.product = parseParameter(lshwReport, "product").split(":")[1].strip();
+            this.vendor = parseParameter(lshwReport, "vendor").split(":")[1].strip();
+            this.clock = parseParameter(lshwReport, "clock").split(":")[1].strip();
+            if (sensorsEnabled)
+            {
+                ArrayList<String> sensorsReport = getReport(new String[]{"sensors"});
+                this.curTemp = parseParameter(sensorsReport, "edge").split("\s{1,10}")[1];
+                this.critTemp = parseParameter(sensorsReport, "edge").split("\s{1,10}")[4].replaceFirst(",", "");
+                this.power = parseParameter(sensorsReport, "power").split("\s{2,10}")[1];
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("CPU's not formed");
+            System.out.println(this);
+        }
         System.out.println("GPU formed\n");
-        determineOverheat();
     }
 
     public boolean determineOverheat()

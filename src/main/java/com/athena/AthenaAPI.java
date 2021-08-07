@@ -53,6 +53,7 @@ public class AthenaAPI
     public String getHWInfo()
     {
         HWInfo info = new HWInfo();
+        System.out.println("JSOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOn"); //SERVDEBUG
         ObjectMapper JSONMapper = new ObjectMapper();
         JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
         String buf = "";

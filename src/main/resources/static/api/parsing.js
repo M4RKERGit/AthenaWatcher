@@ -66,30 +66,42 @@ function showSYS(data)
     var output = "";
 
     output += "Service name: " + data["serviceList"][0].serviceName + "<br>";
-    output += data["serviceList"][0].loaded + "<br>";
-    output += data["serviceList"][0].activity + "<br>";
-    output += data["serviceList"][0].PID + "<br>";
-    output += data["serviceList"][0].memory + "<br>";
-
+    if (data["serviceList"][0].defined === false) output += "Service undefined<br>";
+    else
+    {
+        output += data["serviceList"][0].loaded + "<br>";
+        output += data["serviceList"][0].activity + "<br>";
+        output += data["serviceList"][0].PID + "<br>";
+        output += data["serviceList"][0].memory + "<br>";
+    }
     document.getElementById("fserviceJSON").innerHTML = output;
+    document.getElementById("fserviceLOG").innerHTML = data["serviceList"][0].log;
 
     var output = "";
 
     output += "Service name: " + data["serviceList"][1].serviceName + "<br>";
-    output += data["serviceList"][1].loaded + "<br>";
-    output += data["serviceList"][1].activity + "<br>";
-    output += data["serviceList"][1].PID + "<br>";
-    output += data["serviceList"][1].memory + "<br>";
-
+    if (data["serviceList"][1].defined === false) output += "Service undefined<br>";
+    else
+    {
+        output += data["serviceList"][1].loaded + "<br>";
+        output += data["serviceList"][1].activity + "<br>";
+        output += data["serviceList"][1].PID + "<br>";
+        output += data["serviceList"][1].memory + "<br>";
+    }
     document.getElementById("sserviceJSON").innerHTML = output;
+    document.getElementById("sserviceLOG").innerHTML = data["serviceList"][1].log;
 
     var output = "";
 
     output += "Service name: " + data["serviceList"][2].serviceName + "<br>";
-    output += data["serviceList"][2].loaded + "<br>";
-    output += data["serviceList"][2].activity + "<br>";
-    output += data["serviceList"][2].PID + "<br>";
-    output += data["serviceList"][2].memory + "<br>";
-
+    if (data["serviceList"][2].defined === false) output += "Service undefined<br>";
+    else
+    {
+        output += data["serviceList"][2].loaded + "<br>";
+        output += data["serviceList"][2].activity + "<br>";
+        output += data["serviceList"][2].PID + "<br>";
+        output += data["serviceList"][2].memory + "<br>";
+    }
     document.getElementById("tserviceJSON").innerHTML = output;
+    document.getElementById("tserviceLOG").innerHTML = data["serviceList"][2].log;
 }
