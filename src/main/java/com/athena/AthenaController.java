@@ -30,7 +30,7 @@ public class AthenaController
         Visitor visit = new Visitor();
         visit.description = String.format("Visited index at %s", Additional.getCurrentTime());
         visitsRepository.save(visit);
-        logger.createLog(String.format("Visited index at %s", Additional.getCurrentTime()));
+        logger.createLog("Index page visit");
 
         return new ModelAndView("index.html", model);
     }

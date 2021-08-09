@@ -90,8 +90,18 @@ public class AthenaAPI
     @ResponseStatus(value = HttpStatus.OK)
     public String serviceAction(@RequestBody String req)
     {
-        var servName = req.split("\\+")[0];
-        var cmdType = req.split("\\+")[1].replaceAll("=", "");
+        logger.createLog("Got from client: " + req);
+        String servName, cmdType;
+        if (req.contains("+"))
+        {
+            servName = req.split("\\+")[0];
+            cmdType = req.split("\\+")[1].replaceAll("=", "");
+        }
+        else
+        {
+            servName = req.split(" ")[0];
+            cmdType = req.split(" ")[1];
+        }
         logger.createLog("Called to execute " + cmdType + ' ' + servName);
         if (ServiceControl.servAction(servName, cmdType)) return "Success (" + servName + ' ' + cmdType + ')';
         else return "Failure";

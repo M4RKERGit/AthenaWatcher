@@ -3,11 +3,9 @@ package com.athena.systeminfo;
 import com.athena.linuxtools.ProcessParsing;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Service extends ProcessParsing
 {
-    //public String kind = getClass().toString();
     public String serviceName;
     public boolean defined = false;
     public String loaded;
@@ -20,7 +18,6 @@ public class Service extends ProcessParsing
     {
         this.serviceName = serviceName;
         ArrayList<String> report = getReport(new String[]{"systemctl", "status", serviceName});
-        System.out.println("\n\n" + report + "\n\n");
         if (report.isEmpty()) return;
         this.loaded = parseParameter(report, "Loaded").strip();
         this.activity = parseParameter(report, "Active").strip();

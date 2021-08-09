@@ -1,9 +1,11 @@
 package com.athena.hardware;
 
+import com.athena.linuxtools.ProcessParsing;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Memory extends Device
+public class Memory extends ProcessParsing
 {
     public RAM ram;
     public Swap swap;

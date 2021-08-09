@@ -5,11 +5,12 @@ import java.util.ArrayList;
 
 public class HWInfo extends Device
 {
-    public boolean sensorsEnabled;
-    public CPU cpu;
-    public GPU gpu;
-    public Memory memory;
-    public ArrayList<String> report;
+    private final String infoType = "HARDWARE";
+    private boolean sensorsEnabled;
+    private CPU cpu;
+    private GPU gpu;
+    private Memory memory;
+    private ArrayList<String> report;
     private final Logger logger = new Logger("[HWI]");
 
     public HWInfo()
@@ -38,4 +39,11 @@ public class HWInfo extends Device
         else toRet.add("Memory is OK");
         return toRet;
     }
+
+    public boolean isSensorsEnabled() {return sensorsEnabled;}
+    public CPU getCpu() {return cpu;}
+    public GPU getGpu() {return gpu;}
+    public Memory getMemory() {return memory;}
+    public ArrayList<String> getReport() {return report;}
+    public String getInfoType() {return infoType;}
 }

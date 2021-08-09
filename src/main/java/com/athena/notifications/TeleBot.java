@@ -16,14 +16,13 @@ public class TeleBot extends TelegramLongPollingBot
     private String token;
     private String username;
     private String adminID;
-    private Logger logger = new Logger("[BOT]");
+    private final Logger logger = new Logger("[BOT]");
 
     @SneakyThrows
     @Override
     public String getBotToken()
     {
         this.token = Files.readAllLines(Path.of("bot.txt")).get(0);
-        logger.createLog("Token: " + this.token);
         return this.token;
     }
 
@@ -33,8 +32,6 @@ public class TeleBot extends TelegramLongPollingBot
     {
         this.username = Files.readAllLines(Path.of("bot.txt")).get(1);
         this.adminID = Files.readAllLines(Path.of("bot.txt")).get(2);
-        logger.createLog("Username: " + this.username);
-        logger.createLog("Admin ID: " + this.adminID);
         return this.username;
     }
 
@@ -46,6 +43,9 @@ public class TeleBot extends TelegramLongPollingBot
 
     public void sendReport(String report)
     {
+        logger.createLog("Token: " + this.token);
+        logger.createLog("Username: " + this.username);
+        logger.createLog("Admin ID: " + this.adminID);
         sendMessage.setChatId(this.adminID);
         sendMessage.setText(report);
         try{execute(sendMessage);}

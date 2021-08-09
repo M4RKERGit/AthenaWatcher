@@ -10,8 +10,9 @@ import java.util.ArrayList;
 
 public class SystemCtlReport
 {
-    public Service[] serviceList = new Service[3];
-    public ArrayList<String> report;
+    private final String infoType = "SERVICE";
+    private Service[] serviceList = new Service[3];
+    private ArrayList<String> report;
     private Logger logger = new Logger("[SCR]");
 
     @SneakyThrows
@@ -21,7 +22,6 @@ public class SystemCtlReport
         try
         {
             fr = new FileReader("services.txt");
-            System.out.println("File:" + fr.ready());
         }
         catch (FileNotFoundException e)
         {
@@ -54,4 +54,8 @@ public class SystemCtlReport
         }
         return toRet;
     }
+
+    public String getInfoType() {return infoType;}
+    public Service[] getServiceList() {return serviceList;}
+    public ArrayList<String> getReport() {return report;}
 }
