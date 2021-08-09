@@ -1,15 +1,15 @@
 package com.athena;
 
 import com.athena.hardware.HWInfo;
+import com.athena.linuxtools.ServiceControl;
 import com.athena.systeminfo.SystemCtlReport;
 import com.athena.notifications.Notificator;
+import com.athena.webSSH.EndServer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDateTime;
@@ -72,5 +72,23 @@ public class AthenaAPI
         try {buf = JSONMapper.writeValueAsString(info);}
         catch (JsonProcessingException e) {e.printStackTrace();}
         return buf;
+    }
+
+    @RequestMapping(value = "/terminal", method = RequestMethod.GET, produces = "application/json")
+    public String enterTerminal()
+    {
+        EndServer.craftServer();
+        return  "";
+    }
+
+    @RequestMapping(value="/", method=RequestMethod.POST, produces = "application/json")
+    @ResponseStatus(value = HttpStatus.OK)
+    public String serviceAction(@RequestBody String req)
+    {
+        System.out.println(req);
+        var servName = req.split("\\+")[0];
+        var cmdType = req.split("\\+")[1].replaceAll("=", "");
+        ServiceControl.servAction(servName, cmdType);
+        return "Success";
     }
 }

@@ -14,6 +14,9 @@
             <b class="upperString">
                 Athena API
             </b>
+            <b class="upperString">
+                Remote terminal
+            </b>
         </div>
         <table class="table">
             <tr>
@@ -54,6 +57,9 @@
                     </div>
                 </details>
             </div>
+            <p><input type="button" onclick="sendServiceCommand(1, 'start')" value=" Run "></p>
+            <p><input type="button" onclick="sendServiceCommand(1, 'stop')" value=" Stop "></p>
+            <p><input type="button" onclick="sendServiceCommand(1, 'restart')" value=" Restart "></p>
             <div class="servConf">
                 Service II:
                 <div id="sserviceJSON">
@@ -61,11 +67,14 @@
                 </div>
                 <details class="selector">
                     <summary style="user-select: none;"><b>Log</b></summary>
-                    <div id="sserviceLOG"">
+                    <div id="sserviceLOG">
                         Log here
                     </div>
                 </details>
             </div>
+            <p><input type="button" onclick="sendServiceCommand(2, 'start')" value=" Run "></p>
+            <p><input type="button" onclick="sendServiceCommand(2, 'stop')" value=" Stop "></p>
+            <p><input type="button" onclick="sendServiceCommand(2, 'restart')" value=" Restart "></p>
             <div class="servConf">
                 Service III:
                 <div id="tserviceJSON">
@@ -78,12 +87,15 @@
                     </div>
                 </details>
             </div>
+            <p><input type="button" onclick="sendServiceCommand(3, 'start')" value=" Run "></p>
+            <p><input type="button" onclick="sendServiceCommand(3, 'stop')" value=" Stop "></p>
+            <p><input type="button" onclick="sendServiceCommand(3, 'restart')" value=" Restart "></p>
         </div>
     </div>
     <img class="logoPic" src="../images/athenaLogo.png" alt=Zhopa width="270" height="270" />
 </body>
 
-<script src="parsing.js"></script>
+<script src="parsing.js" charset="utf-8"></script>
 
 <style type="text/css">
     A {

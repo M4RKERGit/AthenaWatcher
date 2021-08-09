@@ -6,13 +6,13 @@ import java.util.regex.Pattern;
 
 public class GPU extends Device
 {
-    public String description;
-    public String product;
-    public String vendor;
-    public String clock;
-    public String curTemp;
-    public String critTemp;
-    public String power;
+    private String description;
+    private String product;
+    private String vendor;
+    private String clock;
+    private String curTemp;
+    private String critTemp;
+    private String power;
 
     public GPU(boolean sensorsEnabled)
     {
@@ -56,4 +56,19 @@ public class GPU extends Device
         else System.out.println("Normal temp");
         return false;
     }
+
+    public String getDescription() {return description;}
+    public void setDescription(String description) {this.description = description;}
+    public String getProduct() {return product;}
+    public void setProduct(String product) {this.product = product;}
+    public String getVendor() {return vendor;}
+    public void setVendor(String vendor) {this.vendor = vendor;}
+    public String getClock() {return clock;}
+    public void setClock(String clock) {this.clock = clock;}
+    public String getCurTemp() {return curTemp;}
+    public void setCurTemp(String curTemp) {this.curTemp = curTemp;}
+    public String getCritTemp() {return critTemp;}
+    public void setCritTemp(String critTemp) {this.critTemp = critTemp;}
+    public String getPower() {return power;}
+    public void setPower(String power) {this.power = power;}
 }

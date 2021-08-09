@@ -105,3 +105,28 @@ function showSYS(data)
     document.getElementById("tserviceJSON").innerHTML = output;
     document.getElementById("tserviceLOG").innerHTML = data["serviceList"][2].log;
 }
+
+function sendServiceCommand(number, command)
+{
+    var xhr = new XMLHttpRequest();
+    var servName;
+    switch (number)
+    {
+        case 1:
+            servName = document.getElementById("fserviceJSON").innerHTML.split(' ')[2].split("<br>")[0];
+            console.log(servName);
+            break;
+        case 2:
+            servName = document.getElementById("sserviceJSON").innerHTML.split(' ')[2].split("<br>")[0];
+            console.log(servName);
+            break;
+        case 3:
+            servName = document.getElementById("tserviceJSON").innerHTML.split(' ')[2].split("<br>")[0];
+            console.log(servName);
+            break;
+    }
+    var toSend = servName + ' ' + command;
+    xhr.open('POST', '', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(toSend);
+}
