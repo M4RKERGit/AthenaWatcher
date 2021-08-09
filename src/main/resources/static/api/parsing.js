@@ -1,3 +1,8 @@
+Notification.requestPermission(function(permission)
+{
+    console.log('Результат запроса прав:', permission);
+});
+
 var xhrHW = new XMLHttpRequest();
 var urlHW = "/api/hwinfo";
 xhrHW.onreadystatechange = function()
@@ -11,8 +16,6 @@ xhrHW.onreadystatechange = function()
 xhrHW.open("GET", urlHW, true);
 xhrHW.send();
 
-
-
 var xhrSYS = new XMLHttpRequest();
 var urlSYS = "/api/servinfo";
 xhrSYS.onreadystatechange = function()
@@ -25,6 +28,23 @@ xhrSYS.onreadystatechange = function()
 };
 xhrSYS.open("GET", urlSYS, true);
 xhrSYS.send();
+
+var xhrPost = new XMLHttpRequest();
+xhrPost.onreadystatechange = function()
+{
+    if (xhrPost.readyState === 4 && xhrPost.status === 200)
+    {
+        console.log(xhrPost.responseText);
+        if (xhrPost.responseText.includes('Success'))
+        {
+            var not = new Notification('Executed', {body: xhrPost.responseText, dir: 'auto'});
+        }
+        else
+        {
+            alert('Failure');
+        }
+    }
+};
 
 function showHW(data)
 {
@@ -108,8 +128,7 @@ function showSYS(data)
 
 function sendServiceCommand(number, command)
 {
-    var xhr = new XMLHttpRequest();
-    var servName;
+    let servName;
     switch (number)
     {
         case 1:
@@ -125,8 +144,9 @@ function sendServiceCommand(number, command)
             console.log(servName);
             break;
     }
-    var toSend = servName + ' ' + command;
-    xhr.open('POST', '', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(toSend);
+    let toSend = servName + ' ' + command;
+
+    xhrPost.open('POST', '', true);
+    xhrPost.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhrPost.send(toSend);
 }

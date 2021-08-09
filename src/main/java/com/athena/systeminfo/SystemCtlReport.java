@@ -1,5 +1,6 @@
 package com.athena.systeminfo;
 
+import com.athena.linuxtools.Logger;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ public class SystemCtlReport
 {
     public Service[] serviceList = new Service[3];
     public ArrayList<String> report;
+    private Logger logger = new Logger("[SCR]");
 
     @SneakyThrows
     public SystemCtlReport()
@@ -31,6 +33,7 @@ public class SystemCtlReport
             serviceList[i] = new Service(reader.readLine());
         }
         report = serviceAnalyze();
+        logger.createLog("Service report successfully created");
     }
 
     public ArrayList<String> serviceAnalyze()
@@ -46,7 +49,8 @@ public class SystemCtlReport
             if (service.activity.contains("dead"))
             {
                 toRet.add("Service " + service.serviceName + " isn't active, press button to restart");
-            } else toRet.add("Service " + service.serviceName + " is running well");
+            }
+            else toRet.add("Service " + service.serviceName + " is running well");
         }
         return toRet;
     }

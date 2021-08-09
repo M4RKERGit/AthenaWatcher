@@ -14,7 +14,7 @@ public class EndServer
     public static void craftServer()
     {
         try (ServerSocket serverSocket = new ServerSocket(80)) {
-            Additional.appendLog("Server started!", PRINT_PREFIX);
+            TerminalExtra.appendLog("Server started!", PRINT_PREFIX);
             String request = "";
             while (true)
             {
@@ -24,14 +24,15 @@ public class EndServer
                 {
                     while (!input.ready());
                     if (input.ready()) {request = input.readLine();}
-                    Additional.appendLog(request, PRINT_PREFIX);
+                    TerminalExtra.appendLog(request, PRINT_PREFIX);
                     parseRequest(request);
                     htmlCode = HTMLCode.refreshHTML(browseText, userDir);
                     output.println(htmlCode);
                 }
             }
         }
-        catch (IOException ex) {Additional.appendLog("Connection error", PRINT_PREFIX);}
+        catch (IOException ex) {
+            TerminalExtra.appendLog("Connection error", PRINT_PREFIX);}
     }
 
     private static void parseRequest(String req)
@@ -44,15 +45,15 @@ public class EndServer
         switch (mode)
         {
             case "GET":
-                Additional.appendLog("Got GET request", PRINT_PREFIX);
+                TerminalExtra.appendLog("Got GET request", PRINT_PREFIX);
                 return;
             case "POST":
-                Additional.appendLog("Got POST request with " + command, PRINT_PREFIX);
+                TerminalExtra.appendLog("Got POST request with " + command, PRINT_PREFIX);
                 try
                 {
                     if (parsCom[0].equals("/clear")) {browseText = ""; return;}
-                    if (parsCom[0].equals("/cd")) {userDir = Additional.changeDir(userDir, parsCom[1]); return;}
-                    browseText += Additional.executeUtil(command.substring(1), userDir);
+                    if (parsCom[0].equals("/cd")) {userDir = TerminalExtra.changeDir(userDir, parsCom[1]); return;}
+                    browseText += TerminalExtra.executeUtil(command.substring(1), userDir);
                 }
                 catch (IOException e) {System.out.println("Invalid command");}
                 break;

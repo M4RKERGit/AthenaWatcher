@@ -1,5 +1,7 @@
 package com.athena.hardware;
 
+import com.athena.linuxtools.Logger;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +15,7 @@ public class GPU extends Device
     private String curTemp;
     private String critTemp;
     private String power;
+    private final Logger logger = new Logger("[GPU]");
 
     public GPU(boolean sensorsEnabled)
     {
@@ -33,10 +36,8 @@ public class GPU extends Device
         }
         catch (Exception e)
         {
-            System.out.println("CPU's not formed");
-            System.out.println(this);
+            logger.createLog("GPU's not formed");
         }
-        System.out.println("GPU formed\n");
     }
 
     public boolean determineOverheat()
@@ -50,10 +51,10 @@ public class GPU extends Device
         System.out.println("Temp: " + cur + "/" + crit);
         if ((crit * 0.8) < cur)
         {
-            System.out.println("!!!Overheat!!!");
+            logger.createLog("!!!Overheat!!!");
             return true;
         }
-        else System.out.println("Normal temp");
+        else logger.createLog("Normal temp");
         return false;
     }
 

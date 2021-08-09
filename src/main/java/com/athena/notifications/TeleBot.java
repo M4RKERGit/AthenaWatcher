@@ -1,13 +1,12 @@
 package com.athena.notifications;
 
+import com.athena.linuxtools.Logger;
 import lombok.SneakyThrows;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -17,12 +16,14 @@ public class TeleBot extends TelegramLongPollingBot
     private String token;
     private String username;
     private String adminID;
+    private Logger logger = new Logger("[BOT]");
 
     @SneakyThrows
     @Override
     public String getBotToken()
     {
         this.token = Files.readAllLines(Path.of("bot.txt")).get(0);
+        logger.createLog("Token: " + this.token);
         return this.token;
     }
 
@@ -32,13 +33,15 @@ public class TeleBot extends TelegramLongPollingBot
     {
         this.username = Files.readAllLines(Path.of("bot.txt")).get(1);
         this.adminID = Files.readAllLines(Path.of("bot.txt")).get(2);
+        logger.createLog("Username: " + this.username);
+        logger.createLog("Admin ID: " + this.adminID);
         return this.username;
     }
 
     @Override
     public void onUpdateReceived(Update update)
     {
-        return;
+        logger.createLog("Got useless update:" + update.getMessage().getFrom().getUserName() + ' ' + update.getMessage().getText());
     }
 
     public void sendReport(String report)
@@ -46,6 +49,6 @@ public class TeleBot extends TelegramLongPollingBot
         sendMessage.setChatId(this.adminID);
         sendMessage.setText(report);
         try{execute(sendMessage);}
-        catch (TelegramApiException e) {System.out.println("Error sending bot message");}
+        catch (TelegramApiException e) {logger.createLog("Error sending message");}
     }
 }

@@ -1,5 +1,6 @@
 package com.athena.hardware;
 
+import com.athena.linuxtools.Logger;
 import java.util.ArrayList;
 
 public class HWInfo extends Device
@@ -9,6 +10,7 @@ public class HWInfo extends Device
     public GPU gpu;
     public Memory memory;
     public ArrayList<String> report;
+    private final Logger logger = new Logger("[HWI]");
 
     public HWInfo()
     {
@@ -18,6 +20,7 @@ public class HWInfo extends Device
         this.gpu = new GPU(this.sensorsEnabled); //TODO: GPU info is very slow, optimization needed (lshw is heavy)
         this.memory = new Memory();
         report = hardwareAnalyze(this.sensorsEnabled);
+        logger.createLog("Got hardware info, sensors condition: " + this.sensorsEnabled);
     }
 
     public ArrayList<String> hardwareAnalyze(boolean sensorsEnabled)

@@ -1,5 +1,6 @@
 package com.athena.notifications;
 
+import com.athena.linuxtools.Logger;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -13,15 +14,15 @@ public class EmailController
 {
     private String SmtpServer, login, password, address;
     private JavaMailSender mailSender;
+    private Logger logger = new Logger("[EML]");
     public EmailController()
     {
         FileReader fr = null;
         try
         {
             fr = new FileReader("mail.txt");
-            System.out.println("File:" + fr.ready());
         }
-        catch (Exception e){System.out.println("Error reading 'mail' file");}
+        catch (Exception e){logger.createLog("Error reading mail configuration file");}
         BufferedReader reader = new BufferedReader(fr);
 
         try
@@ -32,7 +33,7 @@ public class EmailController
             System.out.println(address = reader.readLine());
             mailSender = getJavaMailSender(SmtpServer, login, password);
         }
-        catch (IOException e) {System.out.println("Error creating mailSender");}
+        catch (IOException e) {logger.createLog("Error creating mailSender");}
     }
 
     private JavaMailSender getJavaMailSender(String SmtpServer, String login, String password)
@@ -60,7 +61,14 @@ public class EmailController
         message.setTo(this.address);
         message.setText(messageString);
         message.setSubject("System report");
-        this.mailSender.send(message);
-        System.out.println("Email sent!");
+        try
+        {
+            this.mailSender.send(message);
+            logger.createLog("Email sent");
+        }
+        catch (Exception e)
+        {
+            logger.createLog("Mailing error: " + e.getMessage());
+        }
     }
 }

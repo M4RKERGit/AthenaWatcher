@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class ProcessParsing
 {
+    private static final Logger logger = new Logger("[PRO]");
     public String getLine(String line, int lineNum)
     {
         Process process;
@@ -15,11 +16,11 @@ public class ProcessParsing
         {
             BufferedReader execOutput = null;
             process = Runtime.getRuntime().exec(line);
-            if (process == null) System.out.print("Null process\n");
+            if (process == null) logger.createLog("Null process");
             else  {execOutput = new BufferedReader(new InputStreamReader(process.getInputStream()));}
             for (int i = 0; i < lineNum; i++) s = execOutput.readLine();
         }
-        catch (IOException e) {System.out.print("HWCall error\n");}
+        catch (IOException e) {logger.createLog("HWCall error");}
         return s;
     }
 

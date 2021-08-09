@@ -1,5 +1,7 @@
 package com.athena.hardware;
 
+import com.athena.linuxtools.Logger;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,7 +15,8 @@ public class CPU extends Device
     private String FPU;
     private String curTemp;
     private String critTemp;
-    private boolean valid = false;
+    private boolean valid;
+    private final Logger logger = new Logger("[CPU]");
 
     public CPU(boolean sensorsEnabled)
     {
@@ -33,11 +36,9 @@ public class CPU extends Device
         }
         catch (Exception e)
         {
-            System.out.println("CPU's not formed");
-            System.out.println(this);
+            logger.createLog("CPU's not formed");
         }
         this.valid = true;
-        System.out.println("CPU formed\n");
     }
 
     public boolean determineOverheat()
@@ -52,10 +53,10 @@ public class CPU extends Device
         System.out.println("Temp: " + cur + "/" + crit);
         if ((crit * 0.8) < cur)
         {
-            System.out.println("!!!Overheat!!!");
+            logger.createLog("!!!Overheat!!!");
             return true;
         }
-        else System.out.println("Normal temp");
+        else logger.createLog("Normal temp");
         return false;
     }
 
