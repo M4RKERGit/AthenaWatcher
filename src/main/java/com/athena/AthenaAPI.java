@@ -91,6 +91,7 @@ public class AthenaAPI
     public String serviceAction(@RequestBody String req)
     {
         logger.createLog("Got from client: " + req);
+        if (req.contains("reboot")) Additional.restartApplication(); //TODO: Athena Reboot
         String servName, cmdType;
         if (req.contains("+"))
         {

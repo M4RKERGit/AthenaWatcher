@@ -23,15 +23,14 @@ public class Logger
     public void createLog(String message)
     {
         String log = Additional.getCurrentTime() + ' ' + this.modulePrefix + ' ' + message;
-        System.out.println(log);
         try
         {
             if (!Files.exists(Path.of("log.txt")))
             {
                 createLog("Log file wasn't found, creating a new one, path: " + Files.createFile(Path.of("log.txt")));
             }
-            System.out.println(log);
             Files.write(Path.of("log.txt"), (log + "\n").getBytes(), new StandardOpenOption[]{StandardOpenOption.APPEND});
+            System.out.println(log);
             logCount++;
         }
         catch (IOException e)

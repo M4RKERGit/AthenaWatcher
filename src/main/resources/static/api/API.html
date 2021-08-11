@@ -14,9 +14,7 @@
             <b class="upperString">
                 Athena API
             </b>
-            <b class="upperString">
-                Remote terminal
-            </b>
+            <p class="rebootButton"><input type="button" onclick="sendCustom('reboot')" value=" Reboot Athena "></p>
         </div>
         <table class="table">
             <tr>
@@ -24,21 +22,21 @@
                     CPU:
                     <br><br>
                     <div id="cpuJSON">
-                        Шото тут
+                        Smth here
                     </div>
                 </th>
                 <th class="sysConf">
                     GPU:
                     <br><br>
                     <div id="gpuJSON">
-                        Шото тут
+                        Smth here
                     </div>
                 </th>
                 <th class="sysConf">
                     Memory:
                     <br><br>
                     <div id="memoryJSON">
-                        Шото тут
+                        Smth here
                     </div>
                 </th>
             </tr>
@@ -48,7 +46,7 @@
             <div class="servConf">
                 Service I:
                 <div id="fserviceJSON">
-                    Шото тут
+                    Smth here
                 </div>
                 <details class="selector">
                     <summary style="user-select: none;"><b>Log</b></summary>
@@ -63,7 +61,7 @@
             <div class="servConf">
                 Service II:
                 <div id="sserviceJSON">
-                    Шото тут
+                    Smth here
                 </div>
                 <details class="selector">
                     <summary style="user-select: none;"><b>Log</b></summary>
@@ -78,7 +76,7 @@
             <div class="servConf">
                 Service III:
                 <div id="tserviceJSON">
-                    Шото тут
+                    Smth here
                 </div>
                 <details class="selector">
                     <summary style="user-select: none;"><b>Log</b></summary>
@@ -91,6 +89,9 @@
             <p><input type="button" onclick="sendServiceCommand(3, 'stop')" value=" Stop "></p>
             <p><input type="button" onclick="sendServiceCommand(3, 'restart')" value=" Restart "></p>
         </div>
+    </div>
+    <div class="neofetch", id="neofetch">
+        Main stats
     </div>
     <img class="logoPic" src="../images/athenaLogo.png" alt=Zhopa width="270" height="270" />
 </body>

@@ -13,26 +13,23 @@ public class SystemCtlReport
     private final String infoType = "SERVICE";
     private Service[] serviceList = new Service[3];
     private ArrayList<String> report;
+    private Neofetch neofetch;
     private Logger logger = new Logger("[SCR]");
 
     @SneakyThrows
     public SystemCtlReport()
     {
         FileReader fr = null;
-        try
-        {
-            fr = new FileReader("services.txt");
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
+        try {fr = new FileReader("services.txt");}
+        catch (FileNotFoundException e) {logger.createLog("File 'services.txt' not found");}
+
         BufferedReader reader = new BufferedReader(fr);
         for (int i = 0; i < serviceList.length; i++)
         {
-            serviceList[i] = new Service(reader.readLine());
+            this.serviceList[i] = new Service(reader.readLine());
         }
-        report = serviceAnalyze();
+        this.report = serviceAnalyze();
+        this.neofetch = new Neofetch();
         logger.createLog("Service report successfully created");
     }
 
@@ -58,4 +55,5 @@ public class SystemCtlReport
     public String getInfoType() {return infoType;}
     public Service[] getServiceList() {return serviceList;}
     public ArrayList<String> getReport() {return report;}
+    public Neofetch getNeofetch() {return neofetch;}
 }

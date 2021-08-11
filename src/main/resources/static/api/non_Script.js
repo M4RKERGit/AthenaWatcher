@@ -70,4 +70,6 @@ function showSYS(data)
     }
     document.getElementById("tserviceJSON").innerHTML = output;
     document.getElementById("tserviceLOG").innerHTML = data["serviceList"][2].log;
+
+    document.getElementById("neofetch").innerHTML = data["neofetch"].output;
 }

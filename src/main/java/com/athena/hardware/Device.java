@@ -6,12 +6,13 @@ import com.athena.linuxtools.ProcessParsing;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Device extends ProcessParsing
+public abstract class Device extends ProcessParsing
 {
     //TODO: kinds/types of devices
     protected String curTemp;
     protected String critTemp;
-    protected Logger logger;
+    protected static Logger logger;
+
     public boolean determineOverheat()
     {
         float cur = 0, crit = 0;

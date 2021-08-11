@@ -23,6 +23,16 @@ body
     width: 25%;
 }
 
+.neofetch
+{
+    padding: 10px;
+    border: 3px solid #fff;
+    border-radius: 10px;
+    position: fixed;
+    right: 20%;
+    bottom: 4%;
+}
+
 .servConf
 {
     border: 3px solid #fff;
@@ -62,6 +72,21 @@ body
     float: left;
 }
 
+.rebootButton
+{
+    padding-bottom: 20px;
+    padding-right: 25px;
+    display: inline-block;
+    font-size: 30px;
+    float: right;
+}
+
 @media screen and (orientation: portrait)
 {
+    .neofetch
+    {
+        width: 25%;
+        right: 4%;
+        bottom: 30%;
+    }
 }

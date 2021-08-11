@@ -52,6 +52,7 @@ function callHW()
 callSYS();
 callHW();
 setInterval(callHW, 5000);
+setInterval(callSYS, 10000);
 
 function sendServiceCommand(number, command)
 {
@@ -72,4 +73,11 @@ function sendServiceCommand(number, command)
     xhr.open('POST', '', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(toSend);
+}
+
+function sendCustom(command)
+{
+    xhr.open('POST', '', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send(command);
 }
