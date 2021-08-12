@@ -24,6 +24,14 @@ public class HWInfo extends Device
         logger.createLog("Got hardware info, sensors condition: " + this.sensorsEnabled);
     }
 
+    public void refresh()
+    {
+        this.cpu.refresh();
+        this.gpu.refresh();
+        this.memory = new Memory();
+        report = hardwareAnalyze(this.sensorsEnabled);
+    }
+
     public ArrayList<String> hardwareAnalyze(boolean sensorsEnabled)
     {
         ArrayList<String> toRet = new ArrayList<>();

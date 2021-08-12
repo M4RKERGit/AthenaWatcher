@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,9 +24,18 @@ import java.util.Map;
 public class AthenaAPI
 {
     private final VisitsRepository visitsRepository;
-    public AthenaAPI(VisitsRepository visitsRepository) {this.visitsRepository = visitsRepository;}
     public Notificator notificator = new Notificator();
     private final Logger logger = new Logger("[API]");
+    private HWInfo hwRaw = new HWInfo();
+    private SystemCtlReport sysRaw = new SystemCtlReport();
+    private String hwInfo;
+    private String systemCtlReport;
+
+    public AthenaAPI(VisitsRepository visitsRepository)
+    {
+        this.visitsRepository = visitsRepository;
+        refreshHWSYS();
+    }
 
     @GetMapping("/")
     public ModelAndView slashIndex()
@@ -55,27 +65,15 @@ public class AthenaAPI
     @RequestMapping(value = "/hwinfo", method = RequestMethod.GET, produces = "application/json")
     public String getHWInfo()
     {
-        HWInfo info = new HWInfo();
-        ObjectMapper JSONMapper = new ObjectMapper();
-        JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String buf = "";
-        try {buf = JSONMapper.writeValueAsString(info);}
-        catch (JsonProcessingException e) {e.printStackTrace();}
         logger.createLog("HWInfo successful request");
-        return buf;
+        return this.hwInfo;
     }
 
     @RequestMapping(value = "/servinfo", method = RequestMethod.GET, produces = "application/json")
     public String getServInfo()
     {
-        SystemCtlReport info = new SystemCtlReport();
-        ObjectMapper JSONMapper = new ObjectMapper();
-        JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String buf = "";
-        try {buf = JSONMapper.writeValueAsString(info);}
-        catch (JsonProcessingException e) {e.printStackTrace();}
         logger.createLog("ServInfo successful request");
-        return buf;
+        return this.systemCtlReport;
     }
 
     @RequestMapping(value = "/terminal", method = RequestMethod.GET, produces = "application/json")
@@ -106,5 +104,21 @@ public class AthenaAPI
         logger.createLog("Called to execute " + cmdType + ' ' + servName);
         if (ServiceControl.servAction(servName, cmdType)) return "Success (" + servName + ' ' + cmdType + ')';
         else return "Failure";
+    }
+
+    @Scheduled(fixedDelay = 3000)
+    public void refreshHWSYS()
+    {
+        this.hwRaw.refresh();
+        this.sysRaw = new SystemCtlReport();
+        ObjectMapper JSONMapper = new ObjectMapper();
+        JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String buf = "";
+        try {buf = JSONMapper.writeValueAsString(this.hwRaw);}
+        catch (JsonProcessingException e) {e.printStackTrace();}
+        this.hwInfo = buf;
+        try {buf = JSONMapper.writeValueAsString(this.sysRaw);}
+        catch (JsonProcessingException e) {e.printStackTrace();}
+        this.systemCtlReport = buf;
     }
 }

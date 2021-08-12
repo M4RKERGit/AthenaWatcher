@@ -10,13 +10,14 @@ public class CPU extends Device
     private long cacheSize;
     private int cores;
     private String FPU;
-    private boolean valid;
+    private boolean sensorsEnabled;
 
     public CPU(boolean sensorsEnabled)
     {
         try
         {
             logger = new Logger("[CPU]");
+            this.sensorsEnabled = sensorsEnabled;
             this.manufacturer = getLine("grep vendor_id /proc/cpuinfo", 1).split(":")[1].strip();
             this.modelName = getLine("grep model /proc/cpuinfo", 2).split(":")[1].strip();
             this.cpuFreq = Float.parseFloat(getLine("grep cpu /proc/cpuinfo", 2).split(":")[1].strip());
@@ -29,11 +30,18 @@ public class CPU extends Device
                 this.critTemp = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}")[9].replaceFirst("\\)", "");
             }
         }
-        catch (Exception e)
+        catch (Exception e) {logger.createLog("CPU's not formed");}
+    }
+
+    public void refresh()
+    {
+        this.cpuFreq = Float.parseFloat(getLine("grep cpu /proc/cpuinfo", 2).split(":")[1].strip());
+        if (this.sensorsEnabled)
         {
-            logger.createLog("CPU's not formed");
+            var bufReport = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}");
+            this.curTemp = bufReport[3];
+            this.critTemp = bufReport[9].replaceFirst("\\)", "");
         }
-        this.valid = true;
     }
 
     public String getManufacturer() {return manufacturer;}
@@ -42,5 +50,5 @@ public class CPU extends Device
     public long getCacheSize() {return cacheSize;}
     public int getCores() {return cores;}
     public String getFPU() {return FPU;}
-    public boolean isValid() {return valid;}
+    public boolean isSensorsEnabled() {return sensorsEnabled;}
 }
