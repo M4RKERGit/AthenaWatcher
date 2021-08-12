@@ -4,55 +4,59 @@ Notification.requestPermission(function(permission)
 });
 
 let not = null;
-let xhr = new XMLHttpRequest();
-xhr.onreadystatechange = function()
-{
-    if (xhr.readyState === 4 && xhr.status === 200)
-    {
-        if (xhr.responseText.includes('Success'))
-        {
-            if (not != null) not.close();
-            not = new Notification('Executed', {body: xhr.responseText, dir: 'auto'});
-            callSYS();
-            return;
-        }
-
-        var jsonData = JSON.parse(xhr.responseText);
-        switch(jsonData.infoType)
-        {
-            case('HARDWARE'):
-                showHW(jsonData);
-                break;
-            case('SERVICE'):
-                showSYS(jsonData);
-                break;
-            default:
-                break;
-        }
-    }
-};
-
+let xhrHW = new XMLHttpRequest();
+let xhrSYS = new XMLHttpRequest();
+let xhrCMD = new XMLHttpRequest();
 const urlHW = "/api/hwinfo";
 const urlSYS = "/api/servinfo";
 
+xhrHW.onreadystatechange = function()
+{
+    if (xhrHW.readyState === 4 && xhrHW.status === 200)
+    {
+        let jsonData = JSON.parse(xhrHW.responseText);
+        if (jsonData.infoType === 'HARDWARE') showHW(jsonData);
+    }
+};
+
+xhrSYS.onreadystatechange = function()
+{
+    if (xhrSYS.readyState === 4 && xhrSYS.status === 200)
+    {
+        let jsonData = JSON.parse(xhrSYS.responseText);
+        if (jsonData.infoType === 'SERVICE') showSYS(jsonData);
+    }
+};
+
+xhrCMD.onreadystatechange = function()
+{
+    if (xhrCMD.responseText.includes('Success'))
+    {
+        if (not != null) not.close();
+        not = new Notification('Executed', {body: xhrCMD.responseText, dir: 'auto'});
+        callSYS();
+    }
+}
+
 function callSYS()
 {
-    xhr.open("GET", urlSYS, false);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send();
+    xhrSYS.open("GET", urlSYS, true);
+    xhrSYS.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhrSYS.send();
 }
 
 function callHW()
 {
-    xhr.open("GET", urlHW, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send();
+    xhrHW.open("GET", urlHW, true);
+    xhrHW.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhrHW.send();
 }
 
-callSYS();
 callHW();
-setInterval(callHW, 5000);
-setInterval(callSYS, 10000);
+callSYS();
+
+setInterval(callHW, 3000);
+setInterval(callSYS, 3000);
 
 function sendServiceCommand(number, command)
 {
@@ -70,14 +74,14 @@ function sendServiceCommand(number, command)
             break;
     }
     let toSend = servName + ' ' + command;
-    xhr.open('POST', '', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(toSend);
+    xhrCMD.open('POST', '', true);
+    xhrCMD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhrCMD.send(toSend);
 }
 
 function sendCustom(command)
 {
-    xhr.open('POST', '', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(command);
+    xhrCMD.open('POST', '', true);
+    xhrCMD.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhrCMD.send(command);
 }

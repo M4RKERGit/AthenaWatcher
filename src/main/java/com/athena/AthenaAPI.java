@@ -102,7 +102,11 @@ public class AthenaAPI
             cmdType = req.split(" ")[1];
         }
         logger.createLog("Called to execute " + cmdType + ' ' + servName);
-        if (ServiceControl.servAction(servName, cmdType)) return "Success (" + servName + ' ' + cmdType + ')';
+        if (ServiceControl.servAction(servName, cmdType))
+        {
+            refreshHWSYS();
+            return "Success (" + servName + ' ' + cmdType + ')';
+        }
         else return "Failure";
     }
 

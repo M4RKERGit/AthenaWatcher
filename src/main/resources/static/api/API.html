@@ -14,7 +14,7 @@
             <b class="upperString">
                 Athena API
             </b>
-            <p class="rebootButton"><input type="button" onclick="sendCustom('reboot')" value=" Reboot Athena "></p>
+            <!--<p class="rebootButton"><input type="button" onclick="sendCustom('reboot')" value=" Reboot Athena "></p>-->
         </div>
         <table class="table">
             <tr>
@@ -55,9 +55,9 @@
                     </div>
                 </details>
             </div>
-            <p><input type="button" onclick="sendServiceCommand(1, 'start')" value=" Run "></p>
-            <p><input type="button" onclick="sendServiceCommand(1, 'stop')" value=" Stop "></p>
-            <p><input type="button" onclick="sendServiceCommand(1, 'restart')" value=" Restart "></p>
+            <input class="floating-button" type="button" onclick="sendServiceCommand(1, 'start')" value=" Run ">
+            <input class="floating-button" type="button" onclick="sendServiceCommand(1, 'stop')" value=" Stop ">
+            <input class="floating-button" type="button" onclick="sendServiceCommand(1, 'restart')" value=" Restart ">
             <div class="servConf">
                 Service II:
                 <div id="sserviceJSON">
@@ -70,9 +70,9 @@
                     </div>
                 </details>
             </div>
-            <p><input type="button" onclick="sendServiceCommand(2, 'start')" value=" Run "></p>
-            <p><input type="button" onclick="sendServiceCommand(2, 'stop')" value=" Stop "></p>
-            <p><input type="button" onclick="sendServiceCommand(2, 'restart')" value=" Restart "></p>
+            <input class="floating-button" type="button" onclick="sendServiceCommand(2, 'start')" value=" Run ">
+            <input class="floating-button" type="button" onclick="sendServiceCommand(2, 'stop')" value=" Stop ">
+            <input class="floating-button" type="button" onclick="sendServiceCommand(2, 'restart')" value=" Restart ">
             <div class="servConf">
                 Service III:
                 <div id="tserviceJSON">
@@ -85,15 +85,16 @@
                     </div>
                 </details>
             </div>
-            <p><input type="button" onclick="sendServiceCommand(3, 'start')" value=" Run "></p>
-            <p><input type="button" onclick="sendServiceCommand(3, 'stop')" value=" Stop "></p>
-            <p><input type="button" onclick="sendServiceCommand(3, 'restart')" value=" Restart "></p>
+            <input class="floating-button" type="button" onclick="sendServiceCommand(3, 'start')" value=" Run ">
+            <input class="floating-button" type="button" onclick="sendServiceCommand(3, 'stop')" value=" Stop ">
+            <input class="floating-button" type="button" onclick="sendServiceCommand(3, 'restart')" value=" Restart ">
         </div>
     </div>
-    <div class="neofetch", id="neofetch">
-        Main stats
+    <div class="neofetch">
+        <img style="margin: 10px; margin-top: 15px" src="../images/athenaLogo.png" alt=Zhopa width="270" height="270" />
+        <div style="margin: 10px" id="neofetch">Main stats</div>
     </div>
-    <img class="logoPic" src="../images/athenaLogo.png" alt=Zhopa width="270" height="270" />
+
 </body>
 
 <script src="non_Script.js" charset="utf-8"></script>
