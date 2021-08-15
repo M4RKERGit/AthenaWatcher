@@ -26,10 +26,7 @@ public class GPU extends Device
             this.clock = parseParameter(lshwReport, "clock").split(":")[1].strip();
             if (this.sensorsEnabled)
             {
-                ArrayList<String> sensorsReport = getReport(new String[]{"sensors"});
-                this.curTemp = parseParameter(sensorsReport, "edge").split("\s{1,10}")[1];
-                this.critTemp = parseParameter(sensorsReport, "edge").split("\s{1,10}")[4].replaceFirst(",", "");
-                this.power = parseParameter(sensorsReport, "power").split("\s{2,10}")[1];
+                scanTemp();
             }
         }
         catch (Exception e)
@@ -42,10 +39,25 @@ public class GPU extends Device
     {
         if (this.sensorsEnabled)
         {
-            ArrayList<String> sensorsReport = getReport(new String[]{"sensors"});
+            scanTemp();
+        }
+    }
+
+    private void scanTemp()
+    {
+        ArrayList<String> sensorsReport = getReport(new String[]{"sensors"});
+        try
+        {
             this.curTemp = parseParameter(sensorsReport, "edge").split("\s{1,10}")[1];
             this.critTemp = parseParameter(sensorsReport, "edge").split("\s{1,10}")[4].replaceFirst(",", "");
             this.power = parseParameter(sensorsReport, "power").split("\s{2,10}")[1];
+        }
+        catch(Exception e)
+        {
+            logger.createLog("Sensors error, integrated GPU maybe");
+            this.curTemp = "Same as CPU";
+            this.critTemp = "Same as CPU";
+            this.power = "Same as CPU";
         }
     }
 

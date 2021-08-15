@@ -16,6 +16,12 @@ public class Memory extends ProcessParsing
         this.swap = new Swap();
     }
 
+    public void refresh()
+    {
+        this.ram.refresh();
+        this.swap.refresh();
+    }
+
     public class RAM
     {
         public String total;
@@ -26,6 +32,17 @@ public class Memory extends ProcessParsing
         public String available;
 
         public RAM()
+        {
+            String[] reportRAM = getLine("free -h", 2).split("\s{1,20}");
+            this.total = reportRAM[1];
+            this.used = reportRAM[2];
+            this.free = reportRAM[3];
+            this.shared = reportRAM[4];
+            this.cache = reportRAM[5];
+            this.available = reportRAM[6];
+        }
+
+        public void refresh()
         {
             String[] reportRAM = getLine("free -h", 2).split("\s{1,20}");
             this.total = reportRAM[1];
@@ -72,6 +89,14 @@ public class Memory extends ProcessParsing
         public String free;
 
         public Swap()
+        {
+            String[] reportCache = getLine("free -h", 3).split("\s{1,20}");
+            this.total = reportCache[1];
+            this.used = reportCache[2];
+            this.free = reportCache[3];
+        }
+
+        public void refresh()
         {
             String[] reportCache = getLine("free -h", 3).split("\s{1,20}");
             this.total = reportCache[1];

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class HWInfo extends Device
 {
     private final String infoType = "HARDWARE";
-    private boolean sensorsEnabled;
-    private CPU cpu;
-    private GPU gpu;
-    private Memory memory;
+    private final boolean sensorsEnabled;
+    private static CPU cpu;
+    private static GPU gpu;
+    private static Memory memory;
     private ArrayList<String> report;
     private final Logger logger = new Logger("[HWI]");
 
@@ -17,18 +17,18 @@ public class HWInfo extends Device
     {
         if (getReport(new String[]{"sensors"}).size() < 5) this.sensorsEnabled = false;
         else this.sensorsEnabled = true;
-        this.cpu = new CPU(this.sensorsEnabled);
-        this.gpu = new GPU(this.sensorsEnabled); //TODO: GPU info is very slow, optimization needed (lshw is heavy)
-        this.memory = new Memory();
+        cpu = new CPU(this.sensorsEnabled);
+        gpu = new GPU(this.sensorsEnabled);
+        memory = new Memory();
         report = hardwareAnalyze(this.sensorsEnabled);
         logger.createLog("Got hardware info, sensors condition: " + this.sensorsEnabled);
     }
 
     public void refresh()
     {
-        this.cpu.refresh();
-        this.gpu.refresh();
-        this.memory = new Memory();
+        cpu.refresh();
+        gpu.refresh();
+        memory.refresh();
         report = hardwareAnalyze(this.sensorsEnabled);
     }
 

@@ -26,8 +26,9 @@ public class CPU extends Device
             this.FPU = getLine("grep fpu /proc/cpuinfo", 1).split(":")[1].strip();
             if (sensorsEnabled)
             {
-                this.curTemp = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}")[3];
-                this.critTemp = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}")[9].replaceFirst("\\)", "");
+                String[] report = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}");
+                this.curTemp = report[3];
+                this.critTemp = report[9].replaceFirst("\\)", "");
             }
         }
         catch (Exception e) {logger.createLog("CPU's not formed");}
@@ -38,9 +39,9 @@ public class CPU extends Device
         this.cpuFreq = Float.parseFloat(getLine("grep cpu /proc/cpuinfo", 2).split(":")[1].strip());
         if (this.sensorsEnabled)
         {
-            var bufReport = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}");
-            this.curTemp = bufReport[3];
-            this.critTemp = bufReport[9].replaceFirst("\\)", "");
+            String[] report = parseParameter(getReport(new String[]{"sensors"}), "Package").split("\s{1,10}");
+            this.curTemp = report[3];
+            this.critTemp = report[9].replaceFirst("\\)", "");
         }
     }
 

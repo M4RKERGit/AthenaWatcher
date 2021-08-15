@@ -7,9 +7,9 @@ import java.nio.file.StandardOpenOption;
 
 public class Logger
 {
-    private String modulePrefix;
+    private final String modulePrefix;
     private static int logCount = 0;
-    private static String startTime = Additional.getCurrentTime();
+    private static final String startTime = Additional.getCurrentTime();
 
     public String getModulePrefix() {return modulePrefix;}
     public static int getLogCount() {return logCount;}

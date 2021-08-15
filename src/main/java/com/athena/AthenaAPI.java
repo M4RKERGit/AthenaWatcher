@@ -24,15 +24,18 @@ import java.util.Map;
 public class AthenaAPI
 {
     private final VisitsRepository visitsRepository;
-    public Notificator notificator = new Notificator();
-    private final Logger logger = new Logger("[API]");
-    private HWInfo hwRaw = new HWInfo();
-    private SystemCtlReport sysRaw = new SystemCtlReport();
+    public static Notificator notificator = new Notificator();
+    private static final Logger logger = new Logger("[API]");
+    private static HWInfo hwRaw = new HWInfo();
+    private static SystemCtlReport sysRaw = new SystemCtlReport();
     private String hwInfo;
     private String systemCtlReport;
+    private final ObjectMapper JSONMapper;
 
     public AthenaAPI(VisitsRepository visitsRepository)
     {
+        this.JSONMapper = new ObjectMapper();
+        JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
         this.visitsRepository = visitsRepository;
         refreshHWSYS();
     }
@@ -65,14 +68,14 @@ public class AthenaAPI
     @RequestMapping(value = "/hwinfo", method = RequestMethod.GET, produces = "application/json")
     public String getHWInfo()
     {
-        logger.createLog("HWInfo successful request");
+        //logger.createLog("HWInfo successful request");
         return this.hwInfo;
     }
 
     @RequestMapping(value = "/servinfo", method = RequestMethod.GET, produces = "application/json")
     public String getServInfo()
     {
-        logger.createLog("ServInfo successful request");
+        //logger.createLog("ServInfo successful request");
         return this.systemCtlReport;
     }
 
@@ -113,15 +116,15 @@ public class AthenaAPI
     @Scheduled(fixedDelay = 3000)
     public void refreshHWSYS()
     {
-        this.hwRaw.refresh();
-        this.sysRaw = new SystemCtlReport();
-        ObjectMapper JSONMapper = new ObjectMapper();
-        JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        if (hwRaw != null) hwRaw.refresh();
+        else hwRaw = new HWInfo();
+        if (sysRaw != null) sysRaw.refresh();
+        else sysRaw = new SystemCtlReport();
         String buf = "";
-        try {buf = JSONMapper.writeValueAsString(this.hwRaw);}
+        try {buf = this.JSONMapper.writeValueAsString(hwRaw);}
         catch (JsonProcessingException e) {e.printStackTrace();}
         this.hwInfo = buf;
-        try {buf = JSONMapper.writeValueAsString(this.sysRaw);}
+        try {buf = this.JSONMapper.writeValueAsString(sysRaw);}
         catch (JsonProcessingException e) {e.printStackTrace();}
         this.systemCtlReport = buf;
     }

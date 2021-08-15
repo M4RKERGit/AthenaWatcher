@@ -14,7 +14,7 @@ public class SystemCtlReport
     private Service[] serviceList = new Service[3];
     private ArrayList<String> report;
     private Neofetch neofetch;
-    private Logger logger = new Logger("[SCR]");
+    private static Logger logger = new Logger("[SCR]");
 
     @SneakyThrows
     public SystemCtlReport()
@@ -31,6 +31,22 @@ public class SystemCtlReport
         this.report = serviceAnalyze();
         this.neofetch = new Neofetch();
         logger.createLog("Service report successfully created");
+    }
+
+    @SneakyThrows
+    public void refresh()
+    {
+        FileReader fr = null;
+        try {fr = new FileReader("services.txt");}
+        catch (FileNotFoundException e) {logger.createLog("File 'services.txt' not found");}
+
+        BufferedReader reader = new BufferedReader(fr);
+        for (int i = 0; i < serviceList.length; i++)
+        {
+            this.serviceList[i] = new Service(reader.readLine());
+        }
+        this.report = serviceAnalyze();
+        this.neofetch = new Neofetch();
     }
 
     public ArrayList<String> serviceAnalyze()
