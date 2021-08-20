@@ -1,26 +1,24 @@
-<html xmlns:th="https://www.thymeleaf.org">
+<!DOCTYPE html>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<html>
 <body>
-
-	<div th:if="${message}">
-		<h2 th:text="${message}"/>
-	</div>
+	<h1>File cloud</h1>
 
 	<div>
-		<form method="POST" enctype="multipart/form-data" action="/">
-			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-			</table>
+		<h2>Uploading:</h2>
+		<form method="POST" enctype="multipart/form-data">
+			<input type="file" name="file" /><br/><br/>
+			<input type="submit" value="Submit" />
 		</form>
 	</div>
-
 	<div>
-		<ul>
-			<li th:each="file : ${files}">
-				<a th:href="${file}" th:text="${file}" />
-			</li>
-		</ul>
+		<h2>Downloading:</h2>
+		<div id="files">
+			Smth here
+		</div>
 	</div>
-
 </body>
+
+<script src="uploadScripts.js" charset="utf-8"></script>
+
 </html>

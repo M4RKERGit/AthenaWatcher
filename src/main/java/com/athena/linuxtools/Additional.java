@@ -1,7 +1,13 @@
 package com.athena.linuxtools;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Additional
 {
@@ -40,5 +46,12 @@ public class Additional
         catch (IOException e) {logger.createLog("Restart failed");}*/
         System.gc();
         System.exit(0);
+    }
+
+    public static List<Path> listUploadedFiles(String dir)
+    {
+        try {return Files.walk(Paths.get(dir)).filter(Files::isRegularFile).collect(Collectors.toList());}
+        catch (IOException e) {logger.createLog("Error getting files list");}
+        return null;
     }
 }

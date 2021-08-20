@@ -11,7 +11,7 @@ public abstract class Device extends ProcessParsing
     //TODO: kinds/types of devices
     protected String curTemp;
     protected String critTemp;
-    protected static Logger logger;
+    protected Logger logger;
 
     public boolean determineOverheat()
     {
