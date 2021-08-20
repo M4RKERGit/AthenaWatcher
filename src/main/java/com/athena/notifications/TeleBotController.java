@@ -8,19 +8,16 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 public class TeleBotController
 {
     TeleBot bot = new TeleBot();
-    private Logger logger = new Logger("[BCT]");
+    private final Logger logger = new Logger("[BCT]");
 
     public TeleBotController()
     {
-        TelegramBotsApi botsApi = null;
+        TelegramBotsApi botsApi;
         try
         {
             botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(bot);
         }
-        catch (TelegramApiException e)
-        {
-            e.printStackTrace();
-        }
+        catch (TelegramApiException e) {logger.createLog("Error creating Telegram Bot");}
     }
 }

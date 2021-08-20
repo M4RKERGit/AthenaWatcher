@@ -30,6 +30,19 @@ xhrSYS.onreadystatechange = function()
 
 xhrCMD.onreadystatechange = function()
 {
+    console.log(xhrCMD.responseText);
+    if (xhrCMD.responseText === 'refresh true')
+    {
+        document.getElementById("refreshSwitch").setAttribute('value', ' Stop refreshing ');
+        callSYS();
+        callHW();
+    }
+    if (xhrCMD.responseText === 'refresh false')
+    {
+        document.getElementById("refreshSwitch").setAttribute('value', ' Start refreshing ');
+        callSYS();
+        callHW();
+    }
     if (xhrCMD.responseText.includes('Success'))
     {
         if (not != null) not.close();

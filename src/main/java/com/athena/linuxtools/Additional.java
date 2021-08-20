@@ -37,7 +37,8 @@ public class Additional
 
         final ProcessBuilder builder = new ProcessBuilder(command);
         try {builder.start();}
-        catch (IOException e) {logger.createLog("Restart failed");}
-        System.exit(0);*/
+        catch (IOException e) {logger.createLog("Restart failed");}*/
+        System.gc();
+        System.exit(0);
     }
 }

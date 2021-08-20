@@ -31,6 +31,7 @@ public class AthenaAPI
     private String hwInfo;
     private String systemCtlReport;
     private final ObjectMapper JSONMapper;
+    private static boolean enableRefresh = true;
 
     public AthenaAPI(VisitsRepository visitsRepository)
     {
@@ -47,6 +48,7 @@ public class AthenaAPI
         Visitor visit = new Visitor();
         visit.description = String.format("Visited API at %s", Additional.getCurrentTime());
         visitsRepository.save(visit);
+        notificator.sendBotMsg("API visited");
         logger.createLog("API Visit");
 
         return new ModelAndView("API.html", model);
@@ -93,6 +95,11 @@ public class AthenaAPI
     {
         logger.createLog("Got from client: " + req);
         if (req.contains("reboot")) Additional.restartApplication(); //TODO: Athena Reboot
+        if (req.contains("refreshSwitch"))
+        {
+            enableRefresh = !enableRefresh;
+            return "refresh " + enableRefresh;
+        }
         String servName, cmdType;
         if (req.contains("+"))
         {
@@ -113,9 +120,10 @@ public class AthenaAPI
         else return "Failure";
     }
 
-    @Scheduled(fixedDelay = 3000)
+    @Scheduled(fixedDelayString = "${api.refreshRate}")
     public void refreshHWSYS()
     {
+        if (!enableRefresh) return;
         if (hwRaw != null) hwRaw.refresh();
         else hwRaw = new HWInfo();
         if (sysRaw != null) sysRaw.refresh();
