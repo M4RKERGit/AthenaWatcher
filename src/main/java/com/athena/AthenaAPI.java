@@ -4,6 +4,7 @@ import com.athena.hardware.HWInfo;
 import com.athena.linuxtools.Additional;
 import com.athena.linuxtools.Logger;
 import com.athena.linuxtools.ServiceControl;
+import com.athena.systeminfo.Configuration;
 import com.athena.systeminfo.SystemCtlReport;
 import com.athena.notifications.Notificator;
 import com.athena.webSSH.EndServer;
@@ -28,17 +29,18 @@ public class AthenaAPI
     private static final Logger logger = new Logger("[API]");
     private static HWInfo hwRaw = new HWInfo();
     private static SystemCtlReport sysRaw = new SystemCtlReport();
-    private String hwInfo;
-    private String systemCtlReport;
+    private static Configuration configurationRaw = new Configuration();
+    private static String hwInfo;
+    private static String systemCtlReport;
+    private static String configurationStr;
     private final ObjectMapper JSONMapper;
-    private static boolean enableRefresh = true;
 
     public AthenaAPI(VisitsRepository visitsRepository)
     {
         this.JSONMapper = new ObjectMapper();
         JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
         this.visitsRepository = visitsRepository;
-        refreshHWSYS();
+        refreshHWSYSCONF();
     }
 
     @GetMapping("/")
@@ -70,16 +72,17 @@ public class AthenaAPI
     @RequestMapping(value = "/hwinfo", method = RequestMethod.GET, produces = "application/json")
     public String getHWInfo()
     {
-        //logger.createLog("HWInfo successful request");
-        return this.hwInfo;
+        return hwInfo;
     }
 
     @RequestMapping(value = "/servinfo", method = RequestMethod.GET, produces = "application/json")
     public String getServInfo()
     {
-        //logger.createLog("ServInfo successful request");
-        return this.systemCtlReport;
+        return systemCtlReport;
     }
+
+    @RequestMapping(value = "/confinfo", method = RequestMethod.GET, produces = "application/json")
+    public String getConfInfo() {return configurationStr;}
 
     @RequestMapping(value = "/terminal", method = RequestMethod.GET, produces = "application/json")
     public String enterTerminal()
@@ -97,8 +100,9 @@ public class AthenaAPI
         if (req.contains("reboot")) Additional.restartApplication(); //TODO: Athena Reboot
         if (req.contains("refreshSwitch"))
         {
-            enableRefresh = !enableRefresh;
-            return "refresh " + enableRefresh;
+            configurationRaw.setRefreshEnabled(!(configurationRaw.isRefreshEnabled()));
+            refreshCONF();
+            return "refresh " + configurationRaw.isRefreshEnabled();
         }
         String servName, cmdType;
         if (req.contains("+"))
@@ -114,26 +118,43 @@ public class AthenaAPI
         logger.createLog("Called to execute " + cmdType + ' ' + servName);
         if (ServiceControl.servAction(servName, cmdType))
         {
-            refreshHWSYS();
+            refreshHWSYSCONF();
             return "Success (" + servName + ' ' + cmdType + ')';
         }
         else return "Failure";
     }
 
     @Scheduled(fixedDelayString = "${api.refreshRate}")
-    public void refreshHWSYS()
+    public void refreshHWSYSCONF()
     {
-        if (!enableRefresh) return;
+        if (!configurationRaw.isRefreshEnabled()) return;
+
         if (hwRaw != null) hwRaw.refresh();
         else hwRaw = new HWInfo();
+
         if (sysRaw != null) sysRaw.refresh();
         else sysRaw = new SystemCtlReport();
+
         String buf = "";
+
         try {buf = this.JSONMapper.writeValueAsString(hwRaw);}
-        catch (JsonProcessingException e) {e.printStackTrace();}
-        this.hwInfo = buf;
+        catch (JsonProcessingException e) {logger.createLog("HW refresh error");}
+        hwInfo = buf;
+
         try {buf = this.JSONMapper.writeValueAsString(sysRaw);}
-        catch (JsonProcessingException e) {e.printStackTrace();}
-        this.systemCtlReport = buf;
+        catch (JsonProcessingException e) {logger.createLog("SYS refresh error");}
+        systemCtlReport = buf;
+
+        try {buf = this.JSONMapper.writeValueAsString(configurationRaw);}
+        catch (JsonProcessingException e) {logger.createLog("CONF refresh error");}
+        configurationStr = buf;
+    }
+
+    public void refreshCONF()
+    {
+        String buf = "";
+        try {buf = this.JSONMapper.writeValueAsString(configurationRaw);}
+        catch (JsonProcessingException e) {logger.createLog("CONF refresh error");}
+        configurationStr = buf;
     }
 }

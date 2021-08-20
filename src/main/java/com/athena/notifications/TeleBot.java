@@ -43,9 +43,9 @@ public class TeleBot extends TelegramLongPollingBot
 
     public void sendReport(String report)
     {
-        logger.createLog("Token: " + this.token);
-        logger.createLog("Username: " + this.username);
-        logger.createLog("Admin ID: " + this.adminID);
+        //logger.createLog("Token: " + this.token);
+        //logger.createLog("Username: " + this.username);
+        //logger.createLog("Admin ID: " + this.adminID);
         sendMessage.setChatId(this.adminID);
         sendMessage.setText(report);
         try{execute(sendMessage);}

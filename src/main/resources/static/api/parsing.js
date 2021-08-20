@@ -7,8 +7,11 @@ let not = null;
 let xhrHW = new XMLHttpRequest();
 let xhrSYS = new XMLHttpRequest();
 let xhrCMD = new XMLHttpRequest();
+let xhrCONF = new XMLHttpRequest();
+
 const urlHW = "/api/hwinfo";
 const urlSYS = "/api/servinfo";
+const urlCONF = "/api/confinfo";
 
 xhrHW.onreadystatechange = function()
 {
@@ -30,24 +33,38 @@ xhrSYS.onreadystatechange = function()
 
 xhrCMD.onreadystatechange = function()
 {
-    console.log(xhrCMD.responseText);
-    if (xhrCMD.responseText === 'refresh true')
+    if (xhrSYS.readyState === 4 && xhrSYS.status === 200)
     {
-        document.getElementById("refreshSwitch").setAttribute('value', ' Stop refreshing ');
-        callSYS();
-        callHW();
+        console.log(xhrCMD.responseText);
+        if (xhrCMD.responseText === 'refresh true')
+        {
+            document.getElementById("refreshSwitch").setAttribute('value', ' Stop refreshing ');
+            callSYS();
+            callHW();
+        }
+        if (xhrCMD.responseText === 'refresh false')
+        {
+            document.getElementById("refreshSwitch").setAttribute('value', ' Start refreshing ');
+            callSYS();
+            callHW();
+        }
+        if (xhrCMD.responseText.includes('Success'))
+        {
+            if (not != null) not.close();
+            not = new Notification('Executed', {body: xhrCMD.responseText, dir: 'auto'});
+            callSYS();
+        }
     }
-    if (xhrCMD.responseText === 'refresh false')
+}
+
+xhrCONF.onreadystatechange = function ()
+{
+    if (xhrCONF.readyState === 4 && xhrCONF.status === 200)
     {
-        document.getElementById("refreshSwitch").setAttribute('value', ' Start refreshing ');
-        callSYS();
-        callHW();
-    }
-    if (xhrCMD.responseText.includes('Success'))
-    {
-        if (not != null) not.close();
-        not = new Notification('Executed', {body: xhrCMD.responseText, dir: 'auto'});
-        callSYS();
+        let jsonData = JSON.parse(xhrCONF.responseText);
+        console.log(xhrCONF.responseText + "\n" + jsonData.refreshEnabled);
+        if (jsonData.refreshEnabled === true) document.getElementById("refreshSwitch").setAttribute('value', ' Stop refreshing ');
+        else document.getElementById("refreshSwitch").setAttribute('value', ' Start refreshing ');
     }
 }
 
@@ -65,8 +82,16 @@ function callHW()
     xhrHW.send();
 }
 
+function callCONF()
+{
+    xhrCONF.open("GET", urlCONF, true);
+    xhrCONF.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhrCONF.send();
+}
+
 callHW();
 callSYS();
+callCONF();
 
 setInterval(callHW, 3000);
 setInterval(callSYS, 3000);
