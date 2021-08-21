@@ -30,6 +30,20 @@ public class UploadController
     private static final String UPLOADED_FOLDER = "uploads/";
     private static final Logger logger = new Logger("[UPL]");
 
+    public UploadController()
+    {
+        if (Files.exists(Path.of(UPLOADED_FOLDER))) {logger.createLog("Upload folder found");}
+        else
+        {
+            try
+            {
+                var path = Files.createDirectory(Path.of(UPLOADED_FOLDER));
+                logger.createLog("Created directory: " + path);
+            }
+            catch (IOException e) {logger.createLog("Error creating a directory");}
+        }
+    }
+
     @GetMapping("/")
     public ModelAndView slashIndex()
     {

@@ -35,6 +35,7 @@ public class Service extends ProcessParsing
             this.memory = "Memory unavailable";
         }
         var journal = getReport(new String[]{"journalctl", "-eu", serviceName});
-        this.log = String.join("<br>", journal.subList(journal.size() - 15, journal.size()));
+        if (journal.size() < 15) this.log = String.join("<br>", journal.subList(0, journal.size()));
+        else this.log = String.join("<br>", journal.subList(journal.size() - 15, journal.size()));
     }
 }
