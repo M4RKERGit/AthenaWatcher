@@ -36,9 +36,9 @@ public class UploadController
         return new ModelAndView("uploadForm.html", new HashMap<>());
     }
 
-    @RequestMapping(value="/", method=RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value="/", method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void singleFileUpload(@RequestParam("file") MultipartFile file)
+    public String singleFileUpload(@RequestParam("file") MultipartFile file)
     {
         try
         {
@@ -48,12 +48,14 @@ public class UploadController
             Files.write(path, bytes);
         }
         catch (IOException e) {logger.createLog("Error saving file");}
+        return "Upload finished, go back and reload the page";
     }
 
     @RequestMapping(value = "/files", method = RequestMethod.GET, produces = "application/json")
     public String getFiles()
     {
         List<Path> buf = Additional.listUploadedFiles(UPLOADED_FOLDER);
+        if (buf == null) return "";
         ArrayList<String> toRet = new ArrayList<>();
         for (Path path : buf)
         {
@@ -69,7 +71,7 @@ public class UploadController
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename)
+    public ResponseEntity<Resource> sendFile(@PathVariable String filename)
     {
         Resource file = null;
         try

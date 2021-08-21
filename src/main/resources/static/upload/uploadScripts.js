@@ -9,9 +9,15 @@ xhrFL.onreadystatechange = function()
     }
 };
 
-xhrFL.open("GET", "/upload/files", true);
-xhrFL.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-xhrFL.send();
+function callFL()
+{
+    xhrFL.open("GET", "/upload/files", true);
+    xhrFL.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhrFL.send();
+}
+
+callFL();
+setInterval(callFL, 3000);
 
 function showFL(jsonData)
 {
