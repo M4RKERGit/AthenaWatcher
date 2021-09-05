@@ -5,7 +5,8 @@
 
 body
 {
-    text-align: center;
+    text-align: left;
+    padding-left: 3%;
     background-color: #2dbdec;
     color: #EEEEEE;
     font-family: 'Play', sans-serif;

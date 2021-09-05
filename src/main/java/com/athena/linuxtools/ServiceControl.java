@@ -5,8 +5,8 @@ public class ServiceControl
     private static final Logger logger = new Logger("[SER]");
     public static boolean servAction(String servName, String cmdType)
     {
-        Process process = null;
-        var line = "sudo systemctl" + " " + cmdType + " " + servName;
+        Process process;
+        var line = "systemctl" + " " + cmdType + " " + servName;
         try
         {
             logger.createLog("Trying to execute " + line);

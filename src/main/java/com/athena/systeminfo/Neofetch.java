@@ -2,7 +2,9 @@ package com.athena.systeminfo;
 
 import com.athena.linuxtools.Logger;
 import com.athena.linuxtools.ProcessParsing;
+import lombok.Getter;
 
+@Getter
 public class Neofetch extends ProcessParsing
 {
     private String output;
@@ -17,6 +19,4 @@ public class Neofetch extends ProcessParsing
             if (getReport(new String[]{"which", "neofetch"}).isEmpty()) logger.createLog("Neofetch isn't installed");
         }
     }
-
-    public String getOutput() {return output;}
 }

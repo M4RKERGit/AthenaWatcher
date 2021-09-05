@@ -1,5 +1,8 @@
 package com.athena.systeminfo;
 
+import lombok.Getter;
+
+@Getter
 public class Configuration
 {
     private final int cooldown;
@@ -10,7 +13,5 @@ public class Configuration
         this.cooldown = Integer.parseInt("3000")/1000;
     }
 
-    public int getCooldown() {return cooldown;}
-    public boolean isRefreshEnabled() {return refreshEnabled;}
     public void setRefreshEnabled(boolean refreshEnabled) {this.refreshEnabled = refreshEnabled;}
 }

@@ -28,7 +28,7 @@ public class AthenaAPI
     private static final Logger logger = new Logger("[API]");
     private static HWInfo hwRaw = new HWInfo();
     private static SystemCtlReport sysRaw = new SystemCtlReport();
-    private static final Configuration configurationRaw = new Configuration();
+    private static Configuration configurationRaw = new Configuration();
     private static String hwInfo;
     private static String systemCtlReport;
     private static String configurationStr;
@@ -106,7 +106,7 @@ public class AthenaAPI
             servName = req.split(" ")[0];
             cmdType = req.split(" ")[1];
         }
-        logger.createLog("Called to execute " + cmdType + ' ' + servName);
+        logger.createLog("Called to execute " + cmdType + " " + servName);
         if (ServiceControl.servAction(servName, cmdType))
         {
             refreshHWSYSCONF();

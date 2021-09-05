@@ -1,6 +1,7 @@
 package com.athena.systeminfo;
 
 import com.athena.linuxtools.Logger;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -8,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+@Getter
 public class SystemCtlReport
 {
     private final String infoType = "SERVICE";
@@ -54,22 +56,17 @@ public class SystemCtlReport
         ArrayList<String> toRet = new ArrayList<>();
         for (Service service : this.serviceList)
         {
-            if (!service.defined)
+            if (!service.isDefined())
             {
-                toRet.add("Service " + service.serviceName + "undefined");
+                toRet.add("Service " + service.getServiceName() + "undefined");
                 continue;
             }
-            if (service.activity.contains("dead"))
+            if (service.getActivity().contains("dead"))
             {
-                toRet.add("Service " + service.serviceName + " isn't active, press button to restart");
+                toRet.add("Service " + service.getServiceName() + " isn't active, press button to restart");
             }
-            else toRet.add("Service " + service.serviceName + " is running well");
+            else toRet.add("Service " + service.getServiceName() + " is running well");
         }
         return toRet;
     }
-
-    public String getInfoType() {return infoType;}
-    public Service[] getServiceList() {return serviceList;}
-    public ArrayList<String> getReport() {return report;}
-    public Neofetch getNeofetch() {return neofetch;}
 }

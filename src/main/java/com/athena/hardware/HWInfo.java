@@ -34,7 +34,6 @@ public class HWInfo extends Device
     public ArrayList<String> hardwareAnalyze(boolean sensorsEnabled)
     {
         ArrayList<String> toRet = new ArrayList<>();
-        //logger.createLog("Analyze...");
         if (sensorsEnabled)
         {
             if (cpu.determineOverheat()) toRet.add("CPU is hot, do you want to halt services?");

@@ -1,4 +1,4 @@
-package com.athena.webSSH;
+package com.athena.linuxtools;
 
 import com.athena.linuxtools.Logger;
 import lombok.Getter;
@@ -57,7 +57,9 @@ public class TerminalExtra
 
             String s = "";
             StringBuilder report = new StringBuilder();
-            while((s = stdInput.readLine()) != null) report.append(s).append("\n");
+
+            while((s = stdInput.readLine()) != null)
+                if (!s.equals("null")) report.append(s).append("\n");
 
             process.waitFor();
             logger.createLog("Process finished");

@@ -1,18 +1,20 @@
 package com.athena.systeminfo;
 
 import com.athena.linuxtools.ProcessParsing;
+import lombok.Getter;
 
 import java.util.ArrayList;
 
+@Getter
 public class Service extends ProcessParsing
 {
-    public final String serviceName;
-    public boolean defined = false;
-    public String loaded;
-    public String activity;
-    public String PID;
-    public String memory;
-    public String log;
+    private final String serviceName;
+    private boolean defined = false;
+    private String loaded;
+    private String activity;
+    private String PID;
+    private String memory;
+    private String log;
 
     public Service(String serviceName)
     {

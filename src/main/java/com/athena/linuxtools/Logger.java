@@ -1,19 +1,18 @@
 package com.athena.linuxtools;
 
+import lombok.Getter;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
+@Getter
 public class Logger
 {
     private final String modulePrefix;
     private static int logCount = 0;
     private static final String startTime = Additional.getCurrentTime();
-
-    public String getModulePrefix() {return modulePrefix;}
-    public static int getLogCount() {return logCount;}
-    public static String getStartTime() {return startTime;}
 
     public Logger(String prefix)
     {

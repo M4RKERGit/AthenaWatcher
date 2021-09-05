@@ -68,13 +68,7 @@ public class Memory extends ProcessParsing
                 crit = Float.parseFloat(value);
             }
             //logger.createLog("RAM: " + cur + "/" + crit);
-            if ((crit * 0.8) < cur)
-            {
-                //logger.createLog("Filled");
-                return true;
-            }
-            //else logger.createLog("OK");
-            return false;
+            return (crit * 0.8) < cur;
         }
     }
 

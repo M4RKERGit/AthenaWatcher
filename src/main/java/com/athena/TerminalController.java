@@ -1,7 +1,7 @@
 package com.athena;
 
 import com.athena.linuxtools.Logger;
-import com.athena.webSSH.TerminalExtra;
+import com.athena.linuxtools.TerminalExtra;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,7 +20,6 @@ public class TerminalController
     @GetMapping("/")
     public ModelAndView slashIndex()
     {
-        //notificator.sendBotMsg("Terminal visited");
         logger.createLog("Terminal Visit");
         return new ModelAndView("terminalForm.html", new HashMap<>());
     }

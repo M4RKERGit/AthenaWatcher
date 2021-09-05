@@ -1,16 +1,17 @@
 let xhr = new XMLHttpRequest();
-console.log('Loaded xhr');
+sendCMD('neofetch --stdout')
 
 xhr.onreadystatechange = function()
 {
-    console.log('Got back: ' + xhr.responseText);
-    document.getElementById('browser').innerHTML = xhr.responseText;
+    let brow = document.getElementById('browser');
+    brow.innerHTML = xhr.responseText;
+    brow.scroll({top: 99999999});
 }
 
-function sendCMD()
+function sendCMD(val)
 {
-    console.log('SendCMD call');
-    let val = document.getElementById('txtLine').value;
+    if (val === 'click') val = document.getElementById('txtLine').value;
+    document.getElementById('txtLine').value = '';
     xhr.open('POST', '', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.send(val);
