@@ -15,8 +15,7 @@ public class HWInfo extends Device
 
     public HWInfo()
     {
-        if (getReport(new String[]{"sensors"}).size() < 5) this.sensorsEnabled = false;
-        else this.sensorsEnabled = true;
+        this.sensorsEnabled = getReport(new String[]{"sensors"}).size() >= 5;
         cpu = new CPU(this.sensorsEnabled);
         gpu = new GPU(this.sensorsEnabled);
         memory = new Memory();
@@ -35,7 +34,7 @@ public class HWInfo extends Device
     public ArrayList<String> hardwareAnalyze(boolean sensorsEnabled)
     {
         ArrayList<String> toRet = new ArrayList<>();
-        System.out.println("Analyze...");
+        //logger.createLog("Analyze...");
         if (sensorsEnabled)
         {
             if (cpu.determineOverheat()) toRet.add("CPU is hot, do you want to halt services?");

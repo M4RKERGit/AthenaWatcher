@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Service extends ProcessParsing
 {
-    public String serviceName;
+    public final String serviceName;
     public boolean defined = false;
     public String loaded;
     public String activity;

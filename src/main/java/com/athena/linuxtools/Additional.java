@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class Additional
 {
-    private static Logger logger = new Logger("[ADD]");
+    private static final Logger logger = new Logger("[ADD]");
     public static String getCurrentTime()
     {
         LocalDateTime dateTime = LocalDateTime.now();

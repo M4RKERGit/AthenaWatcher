@@ -1,79 +1,103 @@
 package com.athena.webSSH;
 
+import com.athena.linuxtools.Logger;
+import lombok.Getter;
+import lombok.SneakyThrows;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
-import java.util.Date;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
 
+@Getter
 public class TerminalExtra
 {
-    static String PRINT_PREFIX = " [ADD]: ";
-    static String[] unableToExec = {};
+    private static final Logger logger = new Logger("[EXT]");
+    private static final String[] unableToExec = {"zhzh"};
+    private static String browseText;
+    private static String userDir = "/";
 
-    public static String executeUtil(String line, String userDir) throws IOException
+    public static String parseRequest(String cmd)
     {
-        for (int i = 0; i < unableToExec.length; i++) {if (line.split(" ")[0].equals(unableToExec[i])) return "This utility is unavailable";}
-        Process process;
+        logger.createLog("Got POST request with " + cmd);
+        if (cmd.equals("clear")) browseText = "";
+        else if (cmd.startsWith("cd"))
+        {
+            userDir = changeDir(cmd.substring(2));
+            browseText += "\nPath changed to: " + userDir;
+        }
+        else browseText += "\n" + executeUtil(cmd, userDir);
+        return browseText;
+    }
+
+    public static String executeUtil(String line, String userDir)
+    {
+        for (String value : unableToExec) {if (line.split(" ")[0].equals(value)) return "This utility is unavailable";}
+        ArrayList<String> list = new ArrayList<>();
+        Collections.addAll(list, line.split(" "));
         File dir  = new File(userDir);
         if (!dir.exists())
         {
-            TerminalExtra.appendLog("Can't make a call from this directory", PRINT_PREFIX);
+            logger.createLog("Can't make a call from this directory");
             return "Can't make a call from this directory";
         }
-        try {process = Runtime.getRuntime().exec(line, null, dir);}
-        catch (IOException e)
+        try
+        {
+            ProcessBuilder builder = new ProcessBuilder("/bin/sh", "-c", String.join(" ", list.toArray(new String[0])));
+            builder.directory(dir);
+            builder.redirectErrorStream(true);
+            Process process = builder.start();
+
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            logger.createLog("Process started" + process.info());
+
+            String s = "";
+            StringBuilder report = new StringBuilder();
+            while((s = stdInput.readLine()) != null) report.append(s).append("\n");
+
+            process.waitFor();
+            logger.createLog("Process finished");
+            return report.toString().replaceAll("null", "");
+        }
+        catch (IOException | InterruptedException e)
         {
             e.printStackTrace();
-            TerminalExtra.appendLog("Failed to execute " + line, PRINT_PREFIX);
+            logger.createLog("Failed to execute " + line);
             return "Failed to execute";
         }
-        BufferedReader stdInput = null;
-        if (process != null) {stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            TerminalExtra.appendLog("Process started", PRINT_PREFIX);}
-        String s = "", report = "";
-        while (true)
-        {
-            try {if ((s = stdInput.readLine()) == null) break;}
-            catch (IOException e){
-                TerminalExtra.appendLog("Unable to read line", PRINT_PREFIX);}
-            report += (s + "\n");
-        }
-        try {process.waitFor();}
-        catch (InterruptedException e) {e.printStackTrace(); TerminalExtra.appendLog("Process crushed", PRINT_PREFIX);}
-        TerminalExtra.appendLog("Process finished", PRINT_PREFIX);
-        return report;
     }
 
-    public static void appendLog(String text, String prefix)
+    public static String changeDir(String path)
     {
-        String log = new Date() + prefix + text;// + " " + "From: " + user;
-        System.out.println(log);
-        try {Files.write(Path.of("log.txt"), (log + "\n").getBytes(), new StandardOpenOption[]{StandardOpenOption.APPEND});}
-        catch (IOException e) {System.out.println("Logging error");}
-    }
-
-    public static String changeDir(String recDir, String path)
-    {
-        String toRet = recDir;
+        path = path.strip();
+        logger.createLog("Got path: " + path);
+        String toRet = userDir;
         if (path.equals(".."))
         {
-            if (recDir.equals("/"))   return recDir;
+            if (userDir.equals("/")) return userDir;
             StringBuilder buf = new StringBuilder(toRet);
             buf.deleteCharAt(buf.length() - 1);
             for (int i = buf.length() - 1; i > 0; i--)
             {
-                if (buf.charAt(i) != '/')   buf.deleteCharAt(i);
+                if (buf.charAt(i) != '/') buf.deleteCharAt(i);
                 else break;
             }
             toRet = buf.toString();
         }
         else if (path.charAt(0) == '/')  toRet = path;
-        else toRet = recDir + path;
+        else toRet = userDir + path;
         if (!(toRet.charAt(toRet.length() - 1) == '/'))   toRet += '/';
         return toRet;
+    }
+
+    @SneakyThrows
+    public static String recoverPost(String GOT)
+    {
+        String recovered = URLDecoder.decode(GOT, StandardCharsets.UTF_8);
+        return recovered.replaceFirst("=", "").replaceAll("\\+", " ");
     }
 }

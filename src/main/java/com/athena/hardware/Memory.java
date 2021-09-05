@@ -1,5 +1,6 @@
 package com.athena.hardware;
 
+import com.athena.linuxtools.Logger;
 import com.athena.linuxtools.ProcessParsing;
 
 import java.util.regex.Matcher;
@@ -9,6 +10,7 @@ public class Memory extends ProcessParsing
 {
     public RAM ram;
     public Swap swap;
+    private static final Logger logger = new Logger("[MEM]");
 
     public Memory()
     {
@@ -33,13 +35,7 @@ public class Memory extends ProcessParsing
 
         public RAM()
         {
-            String[] reportRAM = getLine("free -h", 2).split("\s{1,20}");
-            this.total = reportRAM[1];
-            this.used = reportRAM[2];
-            this.free = reportRAM[3];
-            this.shared = reportRAM[4];
-            this.cache = reportRAM[5];
-            this.available = reportRAM[6];
+            refresh();
         }
 
         public void refresh()
@@ -71,13 +67,13 @@ public class Memory extends ProcessParsing
                 value = value.replaceAll(",", ".");
                 crit = Float.parseFloat(value);
             }
-            System.out.println("RAM: " + cur + "/" + crit);
+            //logger.createLog("RAM: " + cur + "/" + crit);
             if ((crit * 0.8) < cur)
             {
-                System.out.println("!!!Filled!!!");
+                //logger.createLog("Filled");
                 return true;
             }
-            else System.out.println("OK");
+            //else logger.createLog("OK");
             return false;
         }
     }

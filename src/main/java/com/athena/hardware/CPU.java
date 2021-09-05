@@ -1,7 +1,9 @@
 package com.athena.hardware;
 
 import com.athena.linuxtools.Logger;
+import lombok.Getter;
 
+@Getter
 public class CPU extends Device
 {
     private String manufacturer;
@@ -44,12 +46,4 @@ public class CPU extends Device
             this.critTemp = report[9].replaceFirst("\\)", "");
         }
     }
-
-    public String getManufacturer() {return manufacturer;}
-    public String getModelName() {return modelName;}
-    public float getCpuFreq() {return cpuFreq;}
-    public long getCacheSize() {return cacheSize;}
-    public int getCores() {return cores;}
-    public String getFPU() {return FPU;}
-    public boolean isSensorsEnabled() {return sensorsEnabled;}
 }

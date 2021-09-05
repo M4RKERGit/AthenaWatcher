@@ -27,7 +27,7 @@ public class ProcessParsing
     public ArrayList<String> getReport(String[] command)
     {
         String s;
-        ArrayList<String> report = new ArrayList<String>();
+        ArrayList<String> report = new ArrayList<>();
         ProcessBuilder pB = new ProcessBuilder(command);
         try
         {

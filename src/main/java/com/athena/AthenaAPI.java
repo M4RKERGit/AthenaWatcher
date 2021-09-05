@@ -7,7 +7,6 @@ import com.athena.linuxtools.ServiceControl;
 import com.athena.systeminfo.Configuration;
 import com.athena.systeminfo.SystemCtlReport;
 import com.athena.notifications.Notificator;
-import com.athena.webSSH.EndServer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -25,11 +24,11 @@ import java.util.Map;
 public class AthenaAPI
 {
     private final VisitsRepository visitsRepository;
-    public static Notificator notificator = new Notificator();
+    //public static Notificator notificator = new Notificator();    //TODO: включить после тестов
     private static final Logger logger = new Logger("[API]");
     private static HWInfo hwRaw = new HWInfo();
     private static SystemCtlReport sysRaw = new SystemCtlReport();
-    private static Configuration configurationRaw = new Configuration();
+    private static final Configuration configurationRaw = new Configuration();
     private static String hwInfo;
     private static String systemCtlReport;
     private static String configurationStr;
@@ -50,7 +49,7 @@ public class AthenaAPI
         Visitor visit = new Visitor();
         visit.description = String.format("Visited API at %s", Additional.getCurrentTime());
         visitsRepository.save(visit);
-        notificator.sendBotMsg("API visited");
+        //notificator.sendBotMsg("API visited");
         logger.createLog("API Visit");
 
         return new ModelAndView("API.html", model);
@@ -60,7 +59,7 @@ public class AthenaAPI
     public String mailing()
     {
         String report = getHWInfo() + "\n\n\n" + getServInfo();
-        notificator.sendBotMsg(report);
+        //notificator.sendBotMsg(report);
         Notificator.emailController.sendMailMessage(report);
         logger.createLog("Sendmail call");
         return "Channels successfully checked!";
@@ -83,14 +82,6 @@ public class AthenaAPI
 
     @RequestMapping(value = "/confinfo", method = RequestMethod.GET, produces = "application/json")
     public String getConfInfo() {return configurationStr;}
-
-    @RequestMapping(value = "/terminal", method = RequestMethod.GET, produces = "application/json")
-    public String enterTerminal()
-    {
-        EndServer.craftServer();
-        logger.createLog("Called terminal");
-        return  ""; //TODO: terminal
-    }
 
     @RequestMapping(value="/", method=RequestMethod.POST, produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK)

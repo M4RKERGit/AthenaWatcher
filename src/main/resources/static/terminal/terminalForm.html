@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="RU">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="terminalStyle.css">
+	<link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+	<title>Terminal</title>
+</head>
+<body>
+	<h1>Welcome to Athena Terminal</h1>
+	<div>
+		<form>
+			<p><label>
+				<textarea id="browser" style = "width: 90%; height: 800px;"></textarea>
+			</label></p>
+			<p><label for="txtLine"></label><input type="text" id="txtLine" style="width: 50%"></p>
+			<input type="button" onclick="sendCMD()" value=" Send ">
+		</form>
+	</div>
+</body>
+
+<script src="terminalScript.js" charset="utf-8"></script>
+
+</html>

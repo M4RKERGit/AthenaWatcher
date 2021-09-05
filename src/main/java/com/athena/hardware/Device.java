@@ -24,15 +24,10 @@ public abstract class Device extends ProcessParsing
         System.out.println();
         if ((crit * 0.8) < cur)
         {
-            logger.createLog("Overheat: " + cur + "/" + crit);
+            //logger.createLog("Overheat: " + cur + "/" + crit);
             return true;
         }
-        else logger.createLog("Normal temp: " + cur + "/" + crit);
+        else //logger.createLog("Normal temp: " + cur + "/" + crit);
         return false;
     }
-
-    public String getCurTemp() {return curTemp;}
-    public void setCurTemp(String curTemp) {this.curTemp = curTemp;}
-    public String getCritTemp() {return critTemp;}
-    public void setCritTemp(String critTemp) {this.critTemp = critTemp;}
 }

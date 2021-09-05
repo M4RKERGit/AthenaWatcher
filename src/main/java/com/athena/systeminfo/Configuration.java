@@ -2,7 +2,7 @@ package com.athena.systeminfo;
 
 public class Configuration
 {
-    private int cooldown;
+    private final int cooldown;
     private boolean refreshEnabled = true;
 
     public Configuration()

@@ -11,10 +11,10 @@ import java.util.ArrayList;
 public class SystemCtlReport
 {
     private final String infoType = "SERVICE";
-    private Service[] serviceList = new Service[3];
+    private final Service[] serviceList = new Service[3];
     private ArrayList<String> report;
     private Neofetch neofetch;
-    private static Logger logger = new Logger("[SCR]");
+    private static final Logger logger = new Logger("[SCR]");
 
     @SneakyThrows
     public SystemCtlReport()

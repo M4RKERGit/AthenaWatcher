@@ -1,9 +1,11 @@
 package com.athena.hardware;
 
 import com.athena.linuxtools.Logger;
+import lombok.Getter;
 
 import java.util.ArrayList;
 
+@Getter
 public class GPU extends Device
 {
     private String description;
@@ -60,11 +62,4 @@ public class GPU extends Device
             this.power = "Same as CPU";
         }
     }
-
-    public String getDescription() {return description;}
-    public String getProduct() {return product;}
-    public String getVendor() {return vendor;}
-    public String getClock() {return clock;}
-    public String getPower() {return power;}
-    public boolean isSensorsEnabled() {return sensorsEnabled;}
 }

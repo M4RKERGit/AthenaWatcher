@@ -47,10 +47,11 @@ public class UploadController
     @GetMapping("/")
     public ModelAndView slashIndex()
     {
+        logger.createLog("Visited Cloud");
         return new ModelAndView("uploadForm.html", new HashMap<>());
     }
 
-    @RequestMapping(value="/", method=RequestMethod.POST)
+    @RequestMapping(method=RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     public String singleFileUpload(@RequestParam("file") MultipartFile file)
     {

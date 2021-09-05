@@ -14,7 +14,7 @@ public class EmailController
 {
     private String SmtpServer, login, password, address;
     private JavaMailSender mailSender;
-    private Logger logger = new Logger("[EML]");
+    private final Logger logger = new Logger("[EML]");
     public EmailController()
     {
         FileReader fr = null;

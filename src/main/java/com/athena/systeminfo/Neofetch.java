@@ -6,7 +6,7 @@ import com.athena.linuxtools.ProcessParsing;
 public class Neofetch extends ProcessParsing
 {
     private String output;
-    private Logger logger = new Logger("[NEO]");
+    private final Logger logger = new Logger("[NEO]");
 
     public Neofetch()
     {
