@@ -12,6 +12,8 @@ body
 
 .table
 {
+    margin-left: 2%;
+    margin-right: 2%;
     position: relative;
     top: 90px;
 }

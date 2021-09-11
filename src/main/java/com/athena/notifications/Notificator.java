@@ -10,7 +10,7 @@ public class Notificator
     public Notificator()
     {
         //emailController = new EmailController();
-        teleBotController = new TeleBotController();
+        //teleBotController = new TeleBotController();
         logger.createLog("Created notification controllers");
         //teleBotController.bot.sendReport("Controllers launched");
     }
