@@ -45,11 +45,6 @@ body
     padding: 10px;
 }
 
-.space
-{
-    padding-bottom: 50px;
-}
-
 .header
 {
     position: fixed;
@@ -67,15 +62,6 @@ body
     display: inline-block;
     font-size: 30px;
     float: left;
-}
-
-.rebootButton
-{
-    padding-bottom: 20px;
-    padding-right: 25px;
-    display: inline-block;
-    font-size: 30px;
-    float: right;
 }
 
 .floating-button
