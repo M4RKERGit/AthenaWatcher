@@ -7,15 +7,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-@Getter
 public class AthenaSettings
 {
     private static final Logger logger = new Logger("[PRP]");
     private static final Properties properties = new java.util.Properties();
+    @Getter
+    private static String serverPort;
 
     static
     {
-        try {properties.load(new FileReader("config.properties"));}
+        try
+        {
+            properties.load(new FileReader("config.properties"));
+            serverPort = properties.getProperty("server.port", "8080");
+        }
         catch (IOException e) {logger.createLog("Error reading config.properties file");}
     }
 

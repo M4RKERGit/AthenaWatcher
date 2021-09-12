@@ -10,6 +10,9 @@ body
     font-family: 'Play', sans-serif;
 }
 
+::-webkit-scrollbar {width: 0; background: transparent;}
+html {-ms-overflow-style: none; scrollbar-width: none;}
+
 .table
 {
     margin-left: 2%;
