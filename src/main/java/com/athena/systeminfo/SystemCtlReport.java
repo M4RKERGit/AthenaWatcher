@@ -1,12 +1,10 @@
 package com.athena.systeminfo;
 
+import com.athena.AthenaSettings;
 import com.athena.linuxtools.Logger;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 
 @Getter
@@ -21,15 +19,9 @@ public class SystemCtlReport
     @SneakyThrows
     public SystemCtlReport()
     {
-        FileReader fr = null;
-        try {fr = new FileReader("services.txt");}
-        catch (FileNotFoundException e) {logger.createLog("File 'services.txt' not found");}
-
-        BufferedReader reader = new BufferedReader(fr);
-        for (int i = 0; i < serviceList.length; i++)
-        {
-            this.serviceList[i] = new Service(reader.readLine());
-        }
+        this.serviceList[0] = new Service(AthenaSettings.Services.I);
+        this.serviceList[1] = new Service(AthenaSettings.Services.II);
+        this.serviceList[2] = new Service(AthenaSettings.Services.III);
         this.report = serviceAnalyze();
         this.neofetch = new Neofetch();
         logger.createLog("Service report successfully created");
@@ -38,15 +30,9 @@ public class SystemCtlReport
     @SneakyThrows
     public void refresh()
     {
-        FileReader fr = null;
-        try {fr = new FileReader("services.txt");}
-        catch (FileNotFoundException e) {logger.createLog("File 'services.txt' not found");}
-
-        BufferedReader reader = new BufferedReader(fr);
-        for (int i = 0; i < serviceList.length; i++)
-        {
-            this.serviceList[i] = new Service(reader.readLine());
-        }
+        this.serviceList[0] = new Service(AthenaSettings.Services.I);
+        this.serviceList[1] = new Service(AthenaSettings.Services.II);
+        this.serviceList[2] = new Service(AthenaSettings.Services.III);
         this.report = serviceAnalyze();
         this.neofetch = new Neofetch();
     }

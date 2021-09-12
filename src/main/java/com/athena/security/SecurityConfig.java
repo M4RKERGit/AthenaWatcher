@@ -1,5 +1,6 @@
 package com.athena.security;
 
+import com.athena.AthenaSettings;
 import com.athena.linuxtools.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -37,33 +32,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected UserDetailsService userDetailsService()
     {
-        String adminPass = "admin", clouderPass = "clouder";
-        try
-        {
-            List<String> buf = Files.readAllLines(Path.of("roles.txt"));
-            adminPass = buf.get(0).split(":")[1];
-            clouderPass = buf.get(1).split(":")[1];
-            logger.createLog(String.format("Admin password: %s", adminPass));
-            logger.createLog(String.format("Clouder password: %s", clouderPass));
-        }
-        catch (IOException e) {logger.createLog("Error reading passwords from roles.txt, passwords will be default");}
-
         return new InMemoryUserDetailsManager(
                 User.builder()
                         .username("admin")
-                        .password(passwordEncoder().encode(adminPass))
+                        .password(passwordEncoder().encode(AthenaSettings.Roles.adminPassword))
                         .roles(Role.ADMIN.name())
                         .build(),
                 User.builder()
                         .username("clouder")
-                        .password(passwordEncoder().encode(clouderPass))
+                        .password(passwordEncoder().encode(AthenaSettings.Roles.clouderPassword))
                         .roles(Role.CLOUDER.name())
                         .build());
     }
 
     @Bean
-    protected PasswordEncoder passwordEncoder()
-    {
-        return new BCryptPasswordEncoder();
-    }
+    protected PasswordEncoder passwordEncoder() {return new BCryptPasswordEncoder();}
 }

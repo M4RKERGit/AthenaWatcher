@@ -1,5 +1,7 @@
-package com.athena;
+package com.athena.controllers;
 
+import com.athena.visitors.Visitor;
+import com.athena.visitors.VisitsRepository;
 import com.athena.hardware.HWInfo;
 import com.athena.linuxtools.Additional;
 import com.athena.linuxtools.Logger;
@@ -28,7 +30,7 @@ public class AthenaAPI
     private static final Logger logger = new Logger("[API]");
     private static HWInfo hwRaw = new HWInfo();
     private static SystemCtlReport sysRaw = new SystemCtlReport();
-    private static Configuration configurationRaw = new Configuration();
+    private static final Configuration configurationRaw = new Configuration();
     private static String hwInfo;
     private static String systemCtlReport;
     private static String configurationStr;

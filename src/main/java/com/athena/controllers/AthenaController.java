@@ -1,5 +1,7 @@
-package com.athena;
+package com.athena.controllers;
 
+import com.athena.visitors.Visitor;
+import com.athena.visitors.VisitsRepository;
 import com.athena.linuxtools.Additional;
 import com.athena.linuxtools.Logger;
 import org.springframework.stereotype.Controller;

@@ -18,9 +18,9 @@ public class ProcessParsing
             process = Runtime.getRuntime().exec(line);
             if (process == null) logger.createLog("Null process");
             else  {execOutput = new BufferedReader(new InputStreamReader(process.getInputStream()));}
-            for (int i = 0; i < lineNum; i++) s = execOutput.readLine();
+            for (int i = 0; i < lineNum; i++) {assert execOutput != null; s = execOutput.readLine();}
         }
-        catch (IOException e) {logger.createLog("HWCall error");}
+        catch (IOException | NullPointerException e) {logger.createLog("HWCall error");}
         return s;
     }
 

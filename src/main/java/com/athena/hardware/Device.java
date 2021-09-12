@@ -21,13 +21,11 @@ public abstract class Device extends ProcessParsing
         if (matcher.find()) {String value = this.curTemp.substring(matcher.start(), matcher.end()); cur = Float.parseFloat(value);}
         matcher = pattern.matcher(this.critTemp);
         if (matcher.find()) {String value = this.critTemp.substring(matcher.start(), matcher.end()); crit = Float.parseFloat(value);}
-        System.out.println();
         if ((crit * 0.8) < cur)
         {
-            //logger.createLog("Overheat: " + cur + "/" + crit);
+            logger.createLog("Overheat: " + cur + "/" + crit);
             return true;
         }
-        else //logger.createLog("Normal temp: " + cur + "/" + crit);
         return false;
     }
 }

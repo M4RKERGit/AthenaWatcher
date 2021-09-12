@@ -1,5 +1,6 @@
 package com.athena.notifications;
 
+import com.athena.AthenaSettings;
 import com.athena.linuxtools.Logger;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,29 +13,15 @@ import java.util.Properties;
 
 public class EmailController
 {
-    private String SmtpServer, login, password, address;
-    private JavaMailSender mailSender;
-    private final Logger logger = new Logger("[EML]");
-    public EmailController()
-    {
-        FileReader fr = null;
-        try
-        {
-            fr = new FileReader("mail.txt");
-        }
-        catch (Exception e){logger.createLog("Error reading mail configuration file");}
-        BufferedReader reader = new BufferedReader(fr);
+    private final String adminMail = AthenaSettings.Mail.adminMail;
+    private final String mailbox = AthenaSettings.Mail.mailbox;
+    private final String password = AthenaSettings.Mail.password;
+    private final String SmtpServer = AthenaSettings.Mail.SMTP_Server;
 
-        try
-        {
-            System.out.println(SmtpServer = reader.readLine());
-            System.out.println(login = reader.readLine());
-            System.out.println(password = reader.readLine());
-            System.out.println(address = reader.readLine());
-            mailSender = getJavaMailSender(SmtpServer, login, password);
-        }
-        catch (IOException e) {logger.createLog("Error creating mailSender");}
-    }
+    private final JavaMailSender mailSender;
+    private final Logger logger = new Logger("[EML]");
+
+    public EmailController() {mailSender = getJavaMailSender(SmtpServer, mailbox, password);}
 
     private JavaMailSender getJavaMailSender(String SmtpServer, String login, String password)
     {
@@ -57,8 +44,8 @@ public class EmailController
     public void sendMailMessage(String messageString)
     {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(this.login);
-        message.setTo(this.address);
+        message.setFrom(this.mailbox);
+        message.setTo(this.adminMail);
         message.setText(messageString);
         message.setSubject("System report");
         try
@@ -66,9 +53,6 @@ public class EmailController
             this.mailSender.send(message);
             logger.createLog("Email sent");
         }
-        catch (Exception e)
-        {
-            logger.createLog("Mailing error: " + e.getMessage());
-        }
+        catch (Exception e) {logger.createLog("Mailing error: " + e.getMessage());}
     }
 }

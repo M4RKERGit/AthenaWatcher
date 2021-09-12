@@ -6,16 +6,14 @@ public class Notificator
 {
     static public EmailController emailController;
     static public TeleBotController teleBotController;
-    private final Logger logger = new Logger("[NOT]");
+    private static final Logger logger = new Logger("[NOT]");
+
     public Notificator()
     {
         //emailController = new EmailController();
-        //teleBotController = new TeleBotController();
+        teleBotController = new TeleBotController();
         logger.createLog("Created notification controllers");
-        //teleBotController.bot.sendReport("Controllers launched");
+        teleBotController.getBot().sendReport("Controllers launched");
     }
-    public void sendBotMsg(String text)
-    {
-        teleBotController.bot.sendReport(text);
-    }
+    public void sendBotMsg(String text) {teleBotController.getBot().sendReport(text);}
 }

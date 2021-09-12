@@ -1,4 +1,4 @@
-package com.athena;
+package com.athena.visitors;
 
 import org.springframework.data.repository.CrudRepository;
 

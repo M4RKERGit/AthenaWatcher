@@ -26,23 +26,14 @@ public class GPU extends Device
             this.product = parseParameter(lshwReport, "product").split(":")[1].strip();
             this.vendor = parseParameter(lshwReport, "vendor").split(":")[1].strip();
             this.clock = parseParameter(lshwReport, "clock").split(":")[1].strip();
-            if (this.sensorsEnabled)
-            {
-                scanTemp();
-            }
+            if (this.sensorsEnabled) {scanTemp();}
         }
-        catch (Exception e)
-        {
-            logger.createLog("GPU's not formed");
-        }
+        catch (Exception e) {logger.createLog("GPU's not formed");}
     }
 
     public void refresh()
     {
-        if (this.sensorsEnabled)
-        {
-            scanTemp();
-        }
+        if (this.sensorsEnabled) {scanTemp();}
     }
 
     private void scanTemp()

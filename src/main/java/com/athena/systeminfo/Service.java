@@ -1,5 +1,6 @@
 package com.athena.systeminfo;
 
+import com.athena.linuxtools.Logger;
 import com.athena.linuxtools.ProcessParsing;
 import lombok.Getter;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 @Getter
 public class Service extends ProcessParsing
 {
+    private final Logger logger = new Logger("UNT");
     private final String serviceName;
     private boolean defined = false;
     private String loaded;
@@ -27,13 +29,13 @@ public class Service extends ProcessParsing
         try{this.PID = parseParameter(report, "PID").strip();}
         catch (Exception e)
         {
-            System.out.println("Process isn't active, PID getting failed");
+            logger.createLog("Process isn't active, PID getting failed");
             this.PID = "PID unavailable";
         }
         try{this.memory = parseParameter(report, "Memory").strip();}
         catch (Exception e)
         {
-            System.out.println("Process isn't active, memory getting failed");
+            logger.createLog("Process isn't active, memory getting failed");
             this.memory = "Memory unavailable";
         }
         var journal = getReport(new String[]{"journalctl", "-eu", serviceName});

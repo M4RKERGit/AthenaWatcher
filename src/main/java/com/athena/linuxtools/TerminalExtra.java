@@ -53,9 +53,8 @@ public class TerminalExtra
             Process process = builder.start();
 
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            logger.createLog("Process started" + process.info());
 
-            String s = "";
+            String s;
             StringBuilder report = new StringBuilder();
 
             while((s = stdInput.readLine()) != null)

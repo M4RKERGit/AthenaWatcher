@@ -1,13 +1,15 @@
 package com.athena.notifications;
 
 import com.athena.linuxtools.Logger;
+import lombok.Getter;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class TeleBotController
 {
-    TeleBot bot = new TeleBot();
+    @Getter
+    private final TeleBot bot = new TeleBot();
     private final Logger logger = new Logger("[BCT]");
 
     public TeleBotController()

@@ -2,3 +2,4 @@ target/
 uploads/
 log.txt
 .git/
+*.p12

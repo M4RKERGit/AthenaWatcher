@@ -1,4 +1,4 @@
-package com.athena;
+package com.athena.visitors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

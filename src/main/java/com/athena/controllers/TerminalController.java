@@ -1,4 +1,4 @@
-package com.athena;
+package com.athena.controllers;
 
 import com.athena.linuxtools.Logger;
 import com.athena.linuxtools.TerminalExtra;

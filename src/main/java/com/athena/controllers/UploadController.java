@@ -1,4 +1,4 @@
-package com.athena;
+package com.athena.controllers;
 
 import com.athena.linuxtools.Additional;
 import com.athena.linuxtools.Logger;
@@ -33,15 +33,12 @@ public class UploadController
     public UploadController()
     {
         if (Files.exists(Path.of(UPLOADED_FOLDER))) {logger.createLog("Upload folder found");}
-        else
-        {
-            try
+        else try
             {
                 var path = Files.createDirectory(Path.of(UPLOADED_FOLDER));
                 logger.createLog("Created directory: " + path);
             }
             catch (IOException e) {logger.createLog("Error creating a directory");}
-        }
     }
 
     @GetMapping("/")
@@ -63,7 +60,7 @@ public class UploadController
             Files.write(path, bytes);
         }
         catch (IOException e) {logger.createLog("Error saving file");}
-        return "Upload finished, go back and reload the page";
+        return "Upload finished, go back";
     }
 
     @RequestMapping(value = "/files", method = RequestMethod.GET, produces = "application/json")
@@ -97,6 +94,7 @@ public class UploadController
             else {logger.createLog("Error");}
         }
         catch (MalformedURLException e) {logger.createLog("Error");}
+        assert file != null;
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 }
