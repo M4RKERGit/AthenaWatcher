@@ -1,8 +1,5 @@
 package com.athena.controllers;
 
-import com.athena.visitors.Visitor;
-import com.athena.visitors.VisitsRepository;
-import com.athena.linuxtools.Additional;
 import com.athena.linuxtools.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,13 +11,7 @@ import java.util.Map;
 @Controller
 public class AthenaController
 {
-    final VisitsRepository visitsRepository;
     private final Logger logger = new Logger("[IND]");
-
-    public AthenaController(VisitsRepository visitsRepository)
-    {
-        this.visitsRepository = visitsRepository;
-    }
 
     @GetMapping("/")
     public ModelAndView index()
@@ -28,9 +19,6 @@ public class AthenaController
         Map<String, String> model = new HashMap<>();
         model.put("name", "Anon");
 
-        Visitor visit = new Visitor();
-        visit.description = String.format("Visited index at %s", Additional.getCurrentTime());
-        visitsRepository.save(visit);
         logger.createLog("Index page visit");
 
         return new ModelAndView("index.html", model);

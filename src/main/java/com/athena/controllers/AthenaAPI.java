@@ -1,7 +1,5 @@
 package com.athena.controllers;
 
-import com.athena.visitors.Visitor;
-import com.athena.visitors.VisitsRepository;
 import com.athena.hardware.HWInfo;
 import com.athena.linuxtools.Additional;
 import com.athena.linuxtools.Logger;
@@ -25,7 +23,6 @@ import java.util.Map;
 @RequestMapping("/api")
 public class AthenaAPI
 {
-    private final VisitsRepository visitsRepository;
     //public static Notificator notificator = new Notificator();    //TODO: включить после тестов
     private static final Logger logger = new Logger("[API]");
     private static HWInfo hwRaw = new HWInfo();
@@ -36,11 +33,10 @@ public class AthenaAPI
     private static String configurationStr;
     private final ObjectMapper JSONMapper;
 
-    public AthenaAPI(VisitsRepository visitsRepository)
+    public AthenaAPI()
     {
         this.JSONMapper = new ObjectMapper();
         JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        this.visitsRepository = visitsRepository;
         refreshHWSYSCONF();
     }
 
@@ -48,12 +44,8 @@ public class AthenaAPI
     public ModelAndView slashIndex()
     {
         Map<String, String> model = new HashMap<>();
-        Visitor visit = new Visitor();
-        visit.description = String.format("Visited API at %s", Additional.getCurrentTime());
-        visitsRepository.save(visit);
         //notificator.sendBotMsg("API visited");
         logger.createLog("API Visit");
-
         return new ModelAndView("API.html", model);
     }
 
@@ -66,9 +58,6 @@ public class AthenaAPI
         logger.createLog("Sendmail call");
         return "Channels successfully checked!";
     }
-
-    @GetMapping("/visits")
-    public Iterable<Visitor> getVisits() {return visitsRepository.findAll();}
 
     @RequestMapping(value = "/hwinfo", method = RequestMethod.GET, produces = "application/json")
     public String getHWInfo()
