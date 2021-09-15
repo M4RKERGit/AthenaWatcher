@@ -33,39 +33,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/terminal/").hasRole("ADMIN")
-                .antMatchers("/api/").hasRole("ADMIN")
-                .antMatchers("/upload/").hasAnyRole("ADMIN", "CLOUDER")
-                .anyRequest().authenticated().and().httpBasic();
+                .antMatchers("/terminal/").hasRole("admin")
+                .antMatchers("/api/").hasRole("admin")
+                .antMatchers("/upload/").hasAnyRole("admin", "clouder")
+                .anyRequest().permitAll().and().httpBasic();
     }
 
     @Bean
     @Override
     protected UserDetailsService userDetailsService()
     {
-        List<Account> gotFromInterface = accountService.findAll();
-        ArrayList<UserDetails> details = new ArrayList<>();
-        for (Account account : gotFromInterface)
+        List<UserDetails> details = new ArrayList<>();
+        for (Account account : accountService.findAll())
         {
             details.add(User.builder()
                     .username(account.getName())
-                    .password(account.getPassword())
+                    .password(passwordEncoder().encode(account.getPassword()))
                     .roles(account.getRole())
                     .build());
         }
-        return new InMemoryUserDetailsManager(
-                //details.toArray(new UserDetails[0])
-                User.builder()
-                        .username("admin")
-                        .password(passwordEncoder().encode(AthenaSettings.Roles.adminPassword))
-                        .roles(Role.ADMIN.name())
-                        .build(),
-                User.builder()
-                        .username("clouder")
-                        .password(passwordEncoder().encode(AthenaSettings.Roles.clouderPassword))
-                        .roles(Role.CLOUDER.name())
-                        .build()
-        );
+        return new InMemoryUserDetailsManager(details);
     }
 
     @Bean
