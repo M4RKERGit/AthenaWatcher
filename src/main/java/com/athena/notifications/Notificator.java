@@ -1,7 +1,9 @@
 package com.athena.notifications;
 
 import com.athena.linuxtools.Logger;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Notificator
 {
     static public EmailController emailController;

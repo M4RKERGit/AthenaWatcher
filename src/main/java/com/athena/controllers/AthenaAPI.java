@@ -97,11 +97,11 @@ public class AthenaAPI
             servName = req.split(" ")[0];
             cmdType = req.split(" ")[1];
         }
-        logger.createLog("Called to execute " + cmdType + " " + servName);
+        logger.createLog(String.format("Called to execute (%s %s)", servName, cmdType));
         if (ServiceControl.servAction(servName, cmdType))
         {
             refreshHWSYSCONF();
-            return "Success (" + servName + ' ' + cmdType + ')';
+            return String.format("Success (%s %s)", servName, cmdType);
         }
         else return "Failure";
     }
@@ -131,6 +131,8 @@ public class AthenaAPI
         catch (JsonProcessingException e) {logger.createLog("CONF refresh error");}
         configurationStr = buf;
     }
+
+    @Scheduled(fixedDelay = 1000000) public void gc(){System.gc();}
 
     public void refreshCONF()
     {

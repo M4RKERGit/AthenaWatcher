@@ -6,7 +6,7 @@ public class ServiceControl
     public static boolean servAction(String servName, String cmdType)
     {
         Process process;
-        var line = "systemctl" + " " + cmdType + " " + servName;
+        String line = String.format("systemctl %s %s", cmdType, servName);
         try
         {
             logger.createLog("Trying to execute " + line);

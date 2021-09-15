@@ -41,7 +41,7 @@ public class ProcessParsing
                 report.add(s);
             }
         }
-        catch (IOException e){e.printStackTrace();}
+        catch (IOException e) {e.printStackTrace();}
         return report;
     }
 

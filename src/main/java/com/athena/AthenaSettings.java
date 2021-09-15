@@ -40,11 +40,6 @@ public class AthenaSettings
                         "\tSMTP server: %s\n",
                         Mail.adminMail, Mail.mailbox, Mail.password, Mail.SMTP_Server);
 
-        System.out.printf("\nRoles settings:\n" +
-                        "\tAdmin password: %s\n" +
-                        "\tClouder password: %s\n",
-                        Roles.adminPassword, Roles.clouderPassword);
-
         System.out.printf("\nServices settings:\n" +
                         "\tFirst service: %s\n" +
                         "\tSecond service: %s\n" +
@@ -81,19 +76,6 @@ public class AthenaSettings
             mailbox = properties.getProperty("mail.mailbox");
             password = properties.getProperty("mail.password");
             SMTP_Server = properties.getProperty("mail.SMTP_Server");
-        }
-    }
-
-    @Getter
-    public static class Roles
-    {
-        public static final String adminPassword;
-        public static final String clouderPassword;
-
-        static
-        {
-            adminPassword = properties.getProperty("roles.adminPassword", "12345678");
-            clouderPassword = properties.getProperty("roles.clouderPassword", "12345678");
         }
     }
 

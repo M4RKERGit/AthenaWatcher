@@ -10,11 +10,6 @@ public class AccountService
 {
     @Autowired
     private UserRepository userRepository;
-
-    public AccountService (UserRepository userRepository)
-    {
-        this.userRepository = userRepository;
-    }
-
+    public AccountService (UserRepository userRepository) {this.userRepository = userRepository;}
     public List<Account> findAll() {return userRepository.findAll();}
 }

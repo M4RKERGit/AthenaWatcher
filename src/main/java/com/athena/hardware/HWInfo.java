@@ -1,8 +1,11 @@
 package com.athena.hardware;
 
 import com.athena.linuxtools.Logger;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 
+@Service
 public class HWInfo extends Device
 {
     private final String infoType = "HARDWARE";
