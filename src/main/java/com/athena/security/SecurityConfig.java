@@ -1,6 +1,5 @@
 package com.athena.security;
 
-import com.athena.AthenaSettings;
 import com.athena.database.Account;
 import com.athena.database.AccountService;
 import com.athena.linuxtools.Logger;

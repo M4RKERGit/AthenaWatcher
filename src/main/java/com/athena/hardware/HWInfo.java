@@ -44,7 +44,7 @@ public class HWInfo extends Device
             if (gpu.determineOverheat()) toRet.add("GPU is hot, do you want to halt DE?");
             else toRet.add("GPU temperature is OK");
         }
-        if (memory.ram.determineBusy()) toRet.add("Memory is filled, do you want to free memory?");
+        if (memory.getRam().determineBusy()) toRet.add("Memory is filled, do you want to free memory?");
         else toRet.add("Memory is OK");
         return toRet;
     }

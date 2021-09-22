@@ -6,9 +6,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Properties;
 
 public class EmailController

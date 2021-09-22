@@ -13,6 +13,8 @@ public class AthenaSettings
     private static final Properties properties = new java.util.Properties();
     @Getter
     private static String serverPort;
+    @Getter
+    private static String uploadFolder;
 
     static
     {
@@ -20,6 +22,7 @@ public class AthenaSettings
         {
             properties.load(new FileReader("config.properties"));
             serverPort = properties.getProperty("server.port", "8080");
+            uploadFolder = properties.getProperty("upload.folder", "upload/");
         }
         catch (IOException e) {logger.createLog("Error reading config.properties file");}
     }

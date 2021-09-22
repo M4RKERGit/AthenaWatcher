@@ -2,14 +2,16 @@ package com.athena.hardware;
 
 import com.athena.linuxtools.Logger;
 import com.athena.linuxtools.ProcessParsing;
+import lombok.Getter;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Getter
 public class Memory extends ProcessParsing
 {
-    public RAM ram;
-    public Swap swap;
+    private RAM ram;
+    private Swap swap;
     private static final Logger logger = new Logger("[MEM]");
 
     public Memory()
@@ -24,14 +26,15 @@ public class Memory extends ProcessParsing
         this.swap.refresh();
     }
 
+    @Getter
     public class RAM
     {
-        public String total;
-        public String used;
-        public String free;
-        public String shared;
-        public String cache;
-        public String available;
+        private String total;
+        private String used;
+        private String free;
+        private String shared;
+        private String cache;
+        private String available;
 
         public RAM()
         {
@@ -72,11 +75,12 @@ public class Memory extends ProcessParsing
         }
     }
 
+    @Getter
     public class Swap
     {
-        public String total;
-        public String used;
-        public String free;
+        private String total;
+        private String used;
+        private String free;
 
         public Swap()
         {

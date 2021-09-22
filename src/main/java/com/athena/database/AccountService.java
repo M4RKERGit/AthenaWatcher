@@ -9,7 +9,7 @@ import java.util.List;
 public class AccountService
 {
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     public AccountService (UserRepository userRepository) {this.userRepository = userRepository;}
     public List<Account> findAll() {return userRepository.findAll();}
 }
