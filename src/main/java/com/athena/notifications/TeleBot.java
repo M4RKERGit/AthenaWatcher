@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TeleBot extends TelegramLongPollingBot
 {
+    private final int DIVIDER = 4000;
     SendMessage sendMessage = new SendMessage();
     private final String token = AthenaSettings.Bot.token;
     private final String username = AthenaSettings.Bot.username;
@@ -35,23 +36,42 @@ public class TeleBot extends TelegramLongPollingBot
         String id = message.getChatId().toString();
         if (!id.equals(adminID))
         {
-            logger.createLog(String.format(
+            String log = String.format(
                     "Got non-admin update '%s' from %s at %s",
-                    message.getText(), message.getFrom().getUserName(), Additional.getCurrentTime()));
+                    message.getText(), message.getFrom().getUserName(), Additional.getCurrentTime());
+            logger.createLog(log);
+            execMessage("You don't have admin access, this incident will be reported", id);
+            execMessage(log, adminID);
             return;
         }
-        String stdout = service.executeAndResponse(message.getText());
-        sendMessage.setText(stdout);
-        sendMessage.setChatId(id);
-        try {execute(sendMessage);}
-        catch (TelegramApiException e) {e.printStackTrace();}
+        String stdout = service.executeAndResponse(message.getText(), true);
+        execMessage(stdout, id);
     }
 
     public void sendReport(String report)
     {
-        sendMessage.setChatId(this.adminID);
-        sendMessage.setText(report);
-        try{execute(sendMessage);}
-        catch (TelegramApiException e) {logger.createLog("Error sending message");}
+        execMessage(report, adminID);
+    }
+
+    public void execMessage(String text, String id)
+    {
+        if (text.length() == 0) return;
+        if (text.length() > DIVIDER)
+        {
+            int count = text.length()/DIVIDER;
+            for (int i = 0; i < count; i++)
+            {
+                String buf = text.substring(i * DIVIDER, (i+1) * DIVIDER);
+                sendMessage.setText(buf);
+                sendMessage.setChatId(id);
+            }
+        }
+        else
+        {
+            sendMessage.setText(text);
+            sendMessage.setChatId(id);
+        }
+        try {execute(sendMessage);}
+        catch (TelegramApiException e) {e.printStackTrace();}
     }
 }

@@ -33,10 +33,11 @@ public class TerminalService
         return new ModelAndView("terminalForm.html", new HashMap<>());
     }
 
-    public String executeAndResponse(String cmd)
+    public String executeAndResponse(String cmd, boolean single)
     {
         logger.createLog("POST: " + cmd);
-        return browseText + ("\n\n" + parseRequest(recoverPost(cmd)) + "\n\n");
+        if (single) return parseRequest(recoverPost(cmd));
+        else return browseText + ("\n\n" + parseRequest(recoverPost(cmd)) + "\n\n");
     }
 
     public String parseRequest(String cmd)

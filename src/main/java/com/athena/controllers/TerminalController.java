@@ -19,5 +19,5 @@ public class TerminalController
 
     @PostMapping("/")
     @ResponseStatus(value = HttpStatus.OK)
-    public String executeCommand(@RequestBody String cmd) {return service.executeAndResponse(cmd);}
+    public String executeCommand(@RequestBody String cmd) {return service.executeAndResponse(cmd, false);}
 }
