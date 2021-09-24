@@ -3,6 +3,7 @@ package com.athena.linuxtools;
 public class ServiceControl
 {
     private static final Logger logger = new Logger("[SER]");
+
     public static boolean servAction(String servName, String cmdType)
     {
         Process process;

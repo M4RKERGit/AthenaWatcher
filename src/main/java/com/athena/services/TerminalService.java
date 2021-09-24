@@ -35,21 +35,27 @@ public class TerminalService
 
     public String executeAndResponse(String cmd, boolean single)
     {
-        logger.createLog("POST: " + cmd);
-        if (single) return parseRequest(recoverPost(cmd));
-        else return browseText + ("\n\n" + parseRequest(recoverPost(cmd)) + "\n\n");
+        if (single) logger.createLog("Telegram: " + cmd);
+        else logger.createLog("POST: " + cmd);
+        if (single) return parseRequest(recoverPost(cmd), true);
+        else return browseText + ("\n\n" + parseRequest(recoverPost(cmd), false) + "\n\n");
     }
 
-    public String parseRequest(String cmd)
+    public String parseRequest(String cmd, boolean single)
     {
-        logger.createLog("Got POST request with " + cmd);
+        if (single) logger.createLog("Got Telegram request with " + cmd);
+        else logger.createLog("Got POST request with " + cmd);
         if (cmd.equals("clear")) termOut = "";
         else if (cmd.startsWith("cd"))
         {
             userDir = changeDir(cmd.substring(2));
             termOut += "\nPath changed to: " + userDir;
         }
-        else termOut += "\n" + executeUtil(cmd, userDir);
+        else
+        {
+            if (single) termOut = executeUtil(cmd, userDir);
+            else termOut += "\n" + executeUtil(cmd, userDir);
+        }
         return termOut;
     }
 
