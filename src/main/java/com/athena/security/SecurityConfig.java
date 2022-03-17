@@ -4,8 +4,10 @@ import com.athena.database.Account;
 import com.athena.database.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -33,8 +35,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/terminal/").hasRole("admin")
                 .antMatchers("/api/").hasRole("admin")
-                .antMatchers("/upload/").hasAnyRole("admin", "clouder")
                 .anyRequest().permitAll().and().httpBasic();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(this.userDetailsService());
     }
 
     @Bean

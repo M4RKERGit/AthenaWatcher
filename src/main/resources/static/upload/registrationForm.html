@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="RU">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="uploadStyle.css">
+    <title>Cloud Registration</title>
+</head>
+<body>
+<h1 id="welcomeHeader">Welcome to Registration Page</h1>
+<div align="center" id="regData">
+    <label id="nameLabel" for="name">Please, enter your username: </label><input type="text" id="name" name="name" required minlength="8" maxlength="20"><br><br>
+    <label id="passwordLabel" for="password">Password: </label><input type="text" id="password" name="password" required minlength="8" maxlength="20"><br><br>
+    <label id="emailLabel" for="email">E-Mail: </label><input type="text" id="email" name="email" required minlength="4" maxlength="30"><br><br>
+    <label id="commentLabel" for="comment">Leave comment if you want: </label><input type="text" id="comment" name="comment" required minlength="2" maxlength="30"><br><br>
+    <input id="refreshSwitch" type="button" onclick="registerTry()" value="Submit information">
+</div>
+</body>
+
+<script src="registrationScripts.js" charset="utf-8"></script>
+
+</html>

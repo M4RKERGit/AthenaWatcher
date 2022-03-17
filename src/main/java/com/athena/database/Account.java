@@ -1,37 +1,42 @@
 package com.athena.database;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Table(name = "user_accounts")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Account
 {
     @Id
-    @Column
+    @Column(nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(nullable = false)
     private String role;
 
-    @Column
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = true)
     private String comment;
 
-    @Column(name = "creation_date")
-    private Date creationDate;
+    @Column(name = "creation_date", nullable = false)
+    private LocalDateTime creationDate;
 
-    @Column(name = "last_login")
-    private Date lastLogin;
+    @Column(name = "last_login", nullable = true)
+    private LocalDateTime lastLogin;
 }

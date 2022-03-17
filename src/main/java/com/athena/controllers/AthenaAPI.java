@@ -5,15 +5,17 @@ import com.athena.hardware.HWInfo;
 import com.athena.services.APIService;
 import com.athena.systeminfo.Configuration;
 import com.athena.systeminfo.SystemCtlReport;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class AthenaAPI
 {
-    private final APIService service = new APIService();
+    private final APIService service;
 
     @GetMapping("/")
     public ModelAndView slashIndex() {return APIService.responseSlash();}
