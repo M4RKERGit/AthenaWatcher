@@ -1,21 +1,19 @@
 package com.athena.notifications;
 
-import com.athena.linuxtools.Logger;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class Notificator
 {
     @Getter
     private static EmailController emailController;
-    @Getter
-    private static final Logger logger = new Logger("[NOT]");
-
     static
     {
         //emailController = new EmailController();
-        logger.createLog("Created notification controllers");
+        log.info("Created notification controllers");
         TeleBotController.getBot().sendReport("Controllers launched");
     }
 

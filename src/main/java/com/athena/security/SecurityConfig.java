@@ -1,9 +1,9 @@
 package com.athena.security;
 
 import com.athena.database.Account;
-import com.athena.database.AccountService;
-import com.athena.linuxtools.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.athena.database.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,12 +21,11 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
+@Slf4j
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-    private static final Logger logger = new Logger("[SEC]");
-
-    @Autowired
-    private AccountService accountService;
+    private final UserRepository userRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception
@@ -43,10 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected UserDetailsService userDetailsService()
     {
         List<UserDetails> details = new ArrayList<>();
-        for (Account account : accountService.findAll())
+        for (Account account : userRepository.findAll())
         {
             details.add(User.builder()
-                    .username(account.getName())
+                    .username(account.getUsername())
                     .password(passwordEncoder().encode(account.getPassword()))
                     .roles(account.getRole())
                     .build());

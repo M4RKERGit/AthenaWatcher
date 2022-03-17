@@ -1,20 +1,20 @@
 package com.athena.systeminfo;
 
 import com.athena.AthenaSettings;
-import com.athena.linuxtools.Logger;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 
 @Getter
+@Slf4j
 public class SystemCtlReport
 {
     private final String infoType = "SERVICE";
     private final Service[] serviceList = new Service[3];
     private ArrayList<String> report;
     private Neofetch neofetch;
-    private static final Logger logger = new Logger("[SCR]");
 
     @SneakyThrows
     public SystemCtlReport()
@@ -24,7 +24,7 @@ public class SystemCtlReport
         this.serviceList[2] = new Service(AthenaSettings.Services.III);
         this.report = serviceAnalyze();
         this.neofetch = new Neofetch();
-        logger.createLog("Service report successfully created");
+        log.info("Service report successfully created");
     }
 
     @SneakyThrows

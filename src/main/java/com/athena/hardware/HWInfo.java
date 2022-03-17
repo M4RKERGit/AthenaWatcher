@@ -1,11 +1,14 @@
 package com.athena.hardware;
 
-import com.athena.linuxtools.Logger;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@Slf4j
+@Getter
 public class HWInfo extends Device
 {
     private final String infoType = "HARDWARE";
@@ -14,7 +17,6 @@ public class HWInfo extends Device
     private static GPU gpu;
     private static Memory memory;
     private ArrayList<String> report;
-    private final Logger logger = new Logger("[HWI]");
 
     public HWInfo()
     {
@@ -23,7 +25,7 @@ public class HWInfo extends Device
         gpu = new GPU(this.sensorsEnabled);
         memory = new Memory();
         report = hardwareAnalyze(this.sensorsEnabled);
-        logger.createLog("Got hardware info, sensors condition: " + this.sensorsEnabled);
+        log.info("Got hardware info, sensors condition: " + this.sensorsEnabled);
     }
 
     public void refresh()
@@ -48,11 +50,4 @@ public class HWInfo extends Device
         else toRet.add("Memory is OK");
         return toRet;
     }
-
-    public boolean isSensorsEnabled() {return sensorsEnabled;}
-    public CPU getCpu() {return cpu;}
-    public GPU getGpu() {return gpu;}
-    public Memory getMemory() {return memory;}
-    public ArrayList<String> getReport() {return report;}
-    public String getInfoType() {return infoType;}
 }

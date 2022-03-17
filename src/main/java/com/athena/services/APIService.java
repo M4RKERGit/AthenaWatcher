@@ -2,12 +2,12 @@ package com.athena.services;
 
 import com.athena.hardware.HWInfo;
 import com.athena.linuxtools.Additional;
-import com.athena.linuxtools.Logger;
 import com.athena.linuxtools.ServiceControl;
 import com.athena.notifications.Notificator;
 import com.athena.systeminfo.Configuration;
 import com.athena.systeminfo.SystemCtlReport;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,9 +16,9 @@ import java.util.HashMap;
 
 @Service
 @Getter
+@Slf4j
 public class APIService
 {
-    private static final Logger logger = new Logger("[API]");
     private HWInfo hwInfo = new HWInfo();
     private SystemCtlReport sysInfo = new SystemCtlReport();
     private final Configuration confInfo = new Configuration();
@@ -31,7 +31,7 @@ public class APIService
     public static ModelAndView responseSlash()
     {
         Notificator.sendBotMsg("API visited");
-        logger.createLog("API Visit");
+        log.info("API Visit");
         return new ModelAndView("API.html", new HashMap<>());
     }
 
@@ -40,13 +40,13 @@ public class APIService
         //String report = hwInfo + "\n\n\n" + systemCtlReport;
         //notificator.sendBotMsg(report);
         //Notificator.emailController.sendMailMessage(report);
-        logger.createLog("Sendmail call");
+        log.info("Sendmail call");
         return "Channels successfully checked!";
     }
 
     public String responseSystemCtl(String req)
     {
-        logger.createLog("Got from client: " + req);
+        log.info("Got from client: " + req);
         if (req.contains("reboot")) Additional.restartApplication(); //TODO: Athena Reboot
         if (req.contains("refreshSwitch"))
         {
@@ -64,7 +64,7 @@ public class APIService
             servName = req.split(" ")[0];
             cmdType = req.split(" ")[1];
         }
-        logger.createLog(String.format("Called to execute (%s %s)", servName, cmdType));
+        log.info(String.format("Called to execute (%s %s)", servName, cmdType));
         if (ServiceControl.servAction(servName, cmdType))
         {
             refreshHWSYSCONF();
@@ -82,6 +82,4 @@ public class APIService
         if (sysInfo != null) sysInfo.refresh();
         else sysInfo = new SystemCtlReport();
     }
-
-    @Scheduled(fixedDelay = 1000000) public void gc() {System.gc();}
 }

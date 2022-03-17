@@ -1,9 +1,10 @@
 package com.athena.hardware;
 
-import com.athena.linuxtools.Logger;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
+@Slf4j
 public class CPU extends Device
 {
     private String manufacturer;
@@ -18,7 +19,6 @@ public class CPU extends Device
     {
         try
         {
-            logger = new Logger("[CPU]");
             this.sensorsEnabled = sensorsEnabled;
             this.manufacturer = getLine("grep vendor_id /proc/cpuinfo", 1).split(":")[1].strip();
             this.modelName = getLine("grep model /proc/cpuinfo", 2).split(":")[1].strip();
@@ -33,7 +33,7 @@ public class CPU extends Device
                 this.critTemp = report[9].replaceFirst("\\)", "");
             }
         }
-        catch (Exception e) {logger.createLog("CPU's not formed");}
+        catch (Exception e) {log.info("CPU's not formed");}
     }
 
     public void refresh()

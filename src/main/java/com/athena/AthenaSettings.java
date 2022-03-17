@@ -1,15 +1,15 @@
 package com.athena;
 
-import com.athena.linuxtools.Logger;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+@Slf4j
 public class AthenaSettings
 {
-    private static final Logger logger = new Logger("[PRP]");
     private static final Properties properties = new java.util.Properties();
     @Getter
     private static String serverPort;
@@ -24,7 +24,7 @@ public class AthenaSettings
             serverPort = properties.getProperty("server.port", "8080");
             uploadFolder = properties.getProperty("upload.folder", "upload/");
         }
-        catch (IOException e) {logger.createLog("Error reading config.properties file");}
+        catch (IOException e) {log.info("Error reading config.properties file");}
     }
 
     @SuppressWarnings("TextBlockMigration")

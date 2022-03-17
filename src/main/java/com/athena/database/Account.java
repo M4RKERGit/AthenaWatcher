@@ -4,26 +4,34 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-@Table(name = "accounts")
-@Getter @Setter
+@Table(name = "user_accounts")
+@Getter
+@Setter
 public class Account
 {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer user_id;
+    private Long id;
 
     @Column
-    private String name;
-
-    @Column
-    private String role;
+    private String username;
 
     @Column
     private String password;
 
     @Column
-    private String creationDate;
+    private String role;
+
+    @Column
+    private String comment;
+
+    @Column(name = "creation_date")
+    private Date creationDate;
+
+    @Column(name = "last_login")
+    private Date lastLogin;
 }

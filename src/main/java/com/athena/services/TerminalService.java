@@ -1,9 +1,9 @@
 package com.athena.services;
 
 import com.athena.linuxtools.Additional;
-import com.athena.linuxtools.Logger;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,9 +18,9 @@ import java.util.Collections;
 import java.util.HashMap;
 
 @Service
+@Slf4j
 public class TerminalService
 {
-    private final Logger logger = new Logger("[TER]");
     @Getter
     private final String browseText = String.format("Started terminal at %s", Additional.getCurrentTime());
     private final String[] unableToExec = {"zhzh"};
@@ -29,22 +29,22 @@ public class TerminalService
 
     public ModelAndView responseIndex()
     {
-        logger.createLog("Terminal Visit");
+        log.info("Terminal Visit");
         return new ModelAndView("terminalForm.html", new HashMap<>());
     }
 
     public String executeAndResponse(String cmd, boolean single)
     {
-        if (single) logger.createLog("Telegram: " + cmd);
-        else logger.createLog("POST: " + cmd);
+        if (single) log.info("Telegram: " + cmd);
+        else log.info("POST: " + cmd);
         if (single) return parseRequest(recoverPost(cmd), true);
         else return browseText + ("\n\n" + parseRequest(recoverPost(cmd), false) + "\n\n");
     }
 
     public String parseRequest(String cmd, boolean single)
     {
-        if (single) logger.createLog("Got Telegram request with " + cmd);
-        else logger.createLog("Got POST request with " + cmd);
+        if (single) log.info("Got Telegram request with " + cmd);
+        else log.info("Got POST request with " + cmd);
         if (cmd.equals("clear")) termOut = "";
         else if (cmd.startsWith("cd"))
         {
@@ -67,7 +67,7 @@ public class TerminalService
         File dir  = new File(userDir);
         if (!dir.exists())
         {
-            logger.createLog("Can't make a call from this directory");
+            log.info("Can't make a call from this directory");
             return "Can't make a call from this directory";
         }
         try
@@ -86,13 +86,13 @@ public class TerminalService
                 if (!s.equals("null")) report.append(s).append("\n");
 
             process.waitFor();
-            logger.createLog("Process finished");
+            log.info("Process finished");
             return report.toString().replaceAll("null", "");
         }
         catch (IOException | InterruptedException e)
         {
             e.printStackTrace();
-            logger.createLog("Failed to execute " + line);
+            log.info("Failed to execute " + line);
             return "Failed to execute";
         }
     }
@@ -100,7 +100,7 @@ public class TerminalService
     public String changeDir(String path)
     {
         path = path.strip();
-        logger.createLog("Got path: " + path);
+        log.info("Got path: " + path);
         String toRet = userDir;
         if (path.equals(".."))
         {

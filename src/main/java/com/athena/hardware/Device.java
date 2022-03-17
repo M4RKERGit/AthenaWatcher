@@ -1,17 +1,17 @@
 package com.athena.hardware;
 
-import com.athena.linuxtools.Logger;
 import com.athena.linuxtools.ProcessParsing;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public abstract class Device extends ProcessParsing
 {
     //TODO: kinds/types of devices
     protected String curTemp;
     protected String critTemp;
-    protected Logger logger;
 
     public boolean determineOverheat()
     {
@@ -23,7 +23,7 @@ public abstract class Device extends ProcessParsing
         if (matcher.find()) {String value = this.critTemp.substring(matcher.start(), matcher.end()); crit = Float.parseFloat(value);}
         if ((crit * 0.8) < cur)
         {
-            logger.createLog("Overheat: " + cur + "/" + crit);
+            log.info("Overheat: " + cur + "/" + crit);
             return true;
         }
         return false;

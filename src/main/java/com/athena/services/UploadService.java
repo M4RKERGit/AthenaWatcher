@@ -2,10 +2,10 @@ package com.athena.services;
 
 import com.athena.AthenaSettings;
 import com.athena.linuxtools.Additional;
-import com.athena.linuxtools.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -24,25 +24,25 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
+@Slf4j
 public class UploadService
 {
     private static final String UPLOADED_FOLDER = AthenaSettings.getUploadFolder();
-    private static final Logger logger = new Logger("[UPL]");
 
     public UploadService()
     {
-        if (Files.exists(Path.of(UPLOADED_FOLDER))) {logger.createLog("Upload folder found");}
+        if (Files.exists(Path.of(UPLOADED_FOLDER))) {log.info("Upload folder found");}
         else try
         {
             var path = Files.createDirectory(Path.of(UPLOADED_FOLDER));
-            logger.createLog("Created directory: " + path);
+            log.info("Created directory: " + path);
         }
-        catch (IOException e) {logger.createLog("Error creating a directory");}
+        catch (IOException e) {log.info("Error creating a directory");}
     }
 
     public ModelAndView responseSlash()
     {
-        logger.createLog("Visited Cloud");
+        log.info("Visited Cloud");
         return new ModelAndView("uploadForm.html", new HashMap<>());
     }
 
@@ -52,10 +52,10 @@ public class UploadService
         {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            logger.createLog("Saved " + path);
+            log.info("Saved " + path);
             Files.write(path, bytes);
         }
-        catch (IOException e) {logger.createLog("Error saving file");}
+        catch (IOException e) {log.info("Error saving file");}
         return "Upload finished, go back";
     }
 
@@ -72,7 +72,7 @@ public class UploadService
         ObjectMapper JSONMapper = new ObjectMapper();
         JSONMapper.enable(SerializationFeature.INDENT_OUTPUT);
         try {return JSONMapper.writeValueAsString(toRet);}
-        catch (JsonProcessingException e) {logger.createLog("Files refresh error");}
+        catch (JsonProcessingException e) {log.info("Files refresh error");}
         return "";
     }
 
@@ -84,9 +84,9 @@ public class UploadService
             Path filePath = Path.of(UPLOADED_FOLDER).resolve(filename);
             Resource resource = new UrlResource(filePath.toUri());
             if (resource.exists() || resource.isReadable()) {file = resource;}
-            else {logger.createLog("Error");}
+            else {log.info("Error");}
         }
-        catch (MalformedURLException e) {logger.createLog("Error");}
+        catch (MalformedURLException e) {log.info("Error");}
         assert file != null;
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }

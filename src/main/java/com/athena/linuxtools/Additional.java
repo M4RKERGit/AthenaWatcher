@@ -1,5 +1,7 @@
 package com.athena.linuxtools;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,10 +11,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class Additional
 {
-    private static final Logger logger = new Logger("[ADD]");
-
     public static String getCurrentTime()
     {
         LocalDateTime dateTime = LocalDateTime.now();
@@ -52,7 +53,7 @@ public class Additional
     public static List<Path> listUploadedFiles(String dir)
     {
         try {return Files.walk(Paths.get(dir)).filter(Files::isRegularFile).collect(Collectors.toList());}
-        catch (IOException e) {logger.createLog("Error getting files list");}
+        catch (IOException e) {log.info("Error getting files list");}
         return null;
     }
 }

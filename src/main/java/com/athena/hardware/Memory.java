@@ -1,18 +1,18 @@
 package com.athena.hardware;
 
-import com.athena.linuxtools.Logger;
 import com.athena.linuxtools.ProcessParsing;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Getter
+@Slf4j
 public class Memory extends ProcessParsing
 {
-    private RAM ram;
-    private Swap swap;
-    private static final Logger logger = new Logger("[MEM]");
+    private final RAM ram;
+    private final Swap swap;
 
     public Memory()
     {

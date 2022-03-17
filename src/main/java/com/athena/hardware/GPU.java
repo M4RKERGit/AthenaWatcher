@@ -1,11 +1,12 @@
 package com.athena.hardware;
 
-import com.athena.linuxtools.Logger;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 
 @Getter
+@Slf4j
 public class GPU extends Device
 {
     private String description;
@@ -19,7 +20,6 @@ public class GPU extends Device
     {
         try
         {
-            logger = new Logger("[GPU]");
             this.sensorsEnabled = sensorsEnabled;
             ArrayList<String> lshwReport = getReport(new String[]{"lshw", "-C", "video"});
             this.description = parseParameter(lshwReport, "description").split(":")[1].strip();
@@ -28,7 +28,7 @@ public class GPU extends Device
             this.clock = parseParameter(lshwReport, "clock").split(":")[1].strip();
             if (this.sensorsEnabled) {scanTemp();}
         }
-        catch (Exception e) {logger.createLog("GPU's not formed");}
+        catch (Exception e) {log.info("GPU's not formed");}
     }
 
     public void refresh()
@@ -47,7 +47,7 @@ public class GPU extends Device
         }
         catch(Exception e)
         {
-            logger.createLog("Sensors error, integrated GPU maybe");
+            log.info("Sensors error, integrated GPU maybe");
             this.curTemp = "Same as CPU";
             this.critTemp = "Same as CPU";
             this.power = "Same as CPU";

@@ -1,13 +1,14 @@
 package com.athena.notifications;
 
 import com.athena.AthenaSettings;
-import com.athena.linuxtools.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
+@Slf4j
 public class EmailController
 {
     private final String adminMail = AthenaSettings.Mail.adminMail;
@@ -16,7 +17,6 @@ public class EmailController
     private final String SmtpServer = AthenaSettings.Mail.SMTP_Server;
 
     private final JavaMailSender mailSender;
-    private final Logger logger = new Logger("[EML]");
 
     public EmailController() {mailSender = getJavaMailSender(SmtpServer, mailbox, password);}
 
@@ -48,8 +48,8 @@ public class EmailController
         try
         {
             this.mailSender.send(message);
-            logger.createLog("Email sent");
+            log.info("Email sent");
         }
-        catch (Exception e) {logger.createLog("Mailing error: " + e.getMessage());}
+        catch (Exception e) {log.info("Mailing error: " + e.getMessage());}
     }
 }

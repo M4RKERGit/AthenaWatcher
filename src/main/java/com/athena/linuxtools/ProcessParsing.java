@@ -1,13 +1,15 @@
 package com.athena.linuxtools;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+@Slf4j
 public class ProcessParsing
 {
-    private static final Logger logger = new Logger("[PRO]");
     public String getLine(String line, int lineNum)
     {
         Process process;
@@ -16,11 +18,11 @@ public class ProcessParsing
         {
             BufferedReader execOutput = null;
             process = Runtime.getRuntime().exec(line);
-            if (process == null) logger.createLog("Null process");
+            if (process == null) log.info("Null process");
             else  {execOutput = new BufferedReader(new InputStreamReader(process.getInputStream()));}
             for (int i = 0; i < lineNum; i++) {assert execOutput != null; s = execOutput.readLine();}
         }
-        catch (IOException | NullPointerException e) {logger.createLog("HWCall error");}
+        catch (IOException | NullPointerException e) {log.info("HWCall error");}
         return s;
     }
 

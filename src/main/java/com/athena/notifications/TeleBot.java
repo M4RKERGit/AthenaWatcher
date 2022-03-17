@@ -2,15 +2,16 @@ package com.athena.notifications;
 
 import com.athena.AthenaSettings;
 import com.athena.linuxtools.Additional;
-import com.athena.linuxtools.Logger;
 import com.athena.services.TerminalService;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+@Slf4j
 public class TeleBot extends TelegramLongPollingBot
 {
     private final int DIVIDER = 4000;
@@ -18,7 +19,6 @@ public class TeleBot extends TelegramLongPollingBot
     private final String token = AthenaSettings.Bot.token;
     private final String username = AthenaSettings.Bot.username;
     private final String adminID = AthenaSettings.Bot.adminID;
-    private final Logger logger = new Logger("[BOT]");
     private final TerminalService service = new TerminalService();
 
     @SneakyThrows
@@ -36,12 +36,12 @@ public class TeleBot extends TelegramLongPollingBot
         String id = message.getChatId().toString();
         if (!id.equals(adminID))
         {
-            String log = String.format(
+            String constructedLog = String.format(
                     "Got non-admin update '%s' from %s at %s",
                     message.getText(), message.getFrom().getUserName(), Additional.getCurrentTime());
-            logger.createLog(log);
+            log.info(constructedLog);
             execMessage("You don't have admin access, this incident will be reported", id);
-            execMessage(log, adminID);
+            execMessage(constructedLog, adminID);
             return;
         }
         String stdout = service.executeAndResponse(message.getText(), true);

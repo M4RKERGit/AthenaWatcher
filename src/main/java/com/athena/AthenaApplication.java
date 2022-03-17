@@ -1,6 +1,6 @@
 package com.athena;
 
-import com.athena.linuxtools.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -11,14 +11,14 @@ import java.util.Collections;
 
 @SpringBootApplication
 @EnableScheduling
+@Slf4j
 public class AthenaApplication
 {
-    private static final Logger logger = new Logger("[BEG]");
     public static void main(String[] args)
     {
-        logger.createLog("Starting Athena...");
+        log.info("Starting Athena...");
         Runtime.getRuntime().addShutdownHook
-                (new Thread(() -> logger.createLog("Disabling Athena...")));
+                (new Thread(() -> log.info("Disabling Athena...")));
         SpringApplication app = new SpringApplication(AthenaApplication.class);
         app.setDefaultProperties(Collections.singletonMap("server.port", AthenaSettings.getServerPort()));
         app.run(args);
@@ -27,7 +27,7 @@ public class AthenaApplication
     @EventListener(ApplicationReadyEvent.class)
     public void runAfterStartup()
     {
-        logger.createLog("Loading completed, all services running");
+        log.info("Loading completed, all services running");
         AthenaSettings.printSettingAfterLoading();
     }
 }
